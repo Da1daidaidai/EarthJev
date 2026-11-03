@@ -245,4 +245,4 @@ keep the terms of their sources.
 
 ## 🙋Q & A
 
-***For questions, please open an issue in this repository.***
+If you have any questions regarding this paper, please feel free to reach out to us (daipengyu2001@gmail.com, zhangyyy.ai@gmail.com).
