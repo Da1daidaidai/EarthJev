@@ -20,5 +20,5 @@ testpaths = ["tests"]
 pythonpath = ["."]
 markers = [
     "data: needs the benchmark images under $EARTHJEV_DATA (or, for the ZwZ test, the built training manifest)",
-    "model: needs the tokenizer and processor files of the answering models under $EARTHJEV_MODELS (no weights)",
+    "model: needs the tokenizer and processor files of the answering models under $EARTHJEV_MODELS (not their weights)",
 ]

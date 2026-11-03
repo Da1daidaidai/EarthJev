@@ -24,8 +24,8 @@ and index (JSON list of the crops: id = qid, split, kind, label, bbox in pixels)
 train: reads the cache and the ZwZ manifest (W, H, bbox = the evidence box, stem per qid; default: the one python -m
 earthjev.train.zwz build writes) and writes verifier.safetensors, verifier.json and training_history.json (default
 $EARTHJEV_OUT/verifier/<config>). From the original z_v cache (re-extracted GPU features are not bitwise equal), one
-CPU thread reproduces weights/verifier/<config> bit for bit on an x86-64 CPU with AVX-512. Elsewhere NumPy's exp may
-round T_GRID differently, so the recorded temperature can differ in the last bit; the weights stayed equal with the
+CPU thread reproduces the released verifier/<config> bit for bit on an x86-64 CPU with AVX-512. Elsewhere NumPy's exp
+may round T_GRID differently, so the recorded temperature can differ in the last bit; the weights stayed equal with the
 AVX2 code paths. Inference takes T_g and tau_opt from the configuration (configs/<config>.json, spv), not from
 verifier.json. The shipped training_history.json also holds the unselected configurations of the grid lr {3e-4, 1e-3}
 x width {64, 256}.

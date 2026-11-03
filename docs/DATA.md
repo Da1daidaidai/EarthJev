@@ -278,8 +278,8 @@ f63d01e170c9b22d8790976553f779d8ff605fb5f4b2b2fb3c1a956e0e2bd691  LRS-GRO data/t
 
 ## Terms
 
-The repository's Apache-2.0 license covers its code, `configs/` and `weights/`, not the data derived from the
-benchmarks. Those files keep the terms of their sources and are released under them:
+The repository's Apache-2.0 license covers its code and `configs/` (and the trained modules), not the data derived
+from the benchmarks. Those files keep the terms of their sources and are released under them:
 
 | files | derived from | license | changes |
 |---|---|---|---|

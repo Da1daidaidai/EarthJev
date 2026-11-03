@@ -134,7 +134,7 @@ in `~/.bashrc`):
 
 ```bash
 export EARTHJEV_DATA=/data/earthjev/datasets        # benchmark images (docs/DATA.md)
-export EARTHJEV_MODELS=/data/earthjev/models        # holds Qwen3.5-9B/ (and Qwen3-VL-8B-Instruct/)
+export EARTHJEV_MODELS=/data/earthjev/models        # holds Qwen3.5-9B/, region_head/, verifier/ (section 6)
 export EARTHJEV_OUT=$HOME/earthjev-outputs          # run outputs; default <repository>/outputs
 export NLTK_DATA=/data/earthjev/nltk_data           # WordNet for the official scorers
 export HF_HUB_OFFLINE=1                             # runs read only local files
@@ -145,7 +145,7 @@ export NUMPY_MADVISE_HUGEPAGE=0                     # no stalls on transparent h
 | variable | used by | notes |
 |---|---|---|
 | `EARTHJEV_DATA` | inference, `pytest -m data`, `scripts/prepare_data.py` | layout in docs/DATA.md |
-| `EARTHJEV_MODELS` | inference; `pytest -m model` and `-m data` (processor files only) | `$EARTHJEV_MODELS/Qwen3.5-9B`, `$EARTHJEV_MODELS/Qwen3-VL-8B-Instruct` |
+| `EARTHJEV_MODELS` | inference, training, the tests | the weights (section 6): `Qwen3.5-9B/`, `region_head/<config>/`, `verifier/<config>/`, `Qwen3-VL-8B-Instruct/`; the tests need only the trained modules and the processor files |
 | `EARTHJEV_OUT` | every script that writes | default `outputs/` in the repository (git-ignored) |
 | `NLTK_DATA` | the LRS-VQA and LRS-GRO scorers | NLTK also searches `~/nltk_data` and a few system paths |
 | `HF_HOME` | downloads (`hf download`, `scripts/prepare_data.py`) | Hugging Face cache, default `~/.cache/huggingface`; set it if your home is small |
@@ -175,26 +175,37 @@ These are the files of the paper's environment. `omw-1.4` is not used by the sco
 environment had it. The `RuntimeWarning` that `python -m nltk.downloader` prints is harmless. Keep the zip files as
 they are: NLTK reads them without unpacking, and it does not find a symlinked `wordnet.zip` (copy it instead).
 
-## 6. The answering model
+## 6. The weights
 
-EarthJev uses Qwen3.5-9B at a fixed revision (`configs/qwen35-9b.json`, `answerer`). Download it (19.3 GB):
+The trained modules of EarthJev and its answering model are in one Hugging Face repository,
+[daidaidaidai1dai/EarthJev](https://huggingface.co/daidaidaidai1dai/EarthJev) (19.3 GB):
+
+| path | content |
+|---|---|
+| `Qwen3.5-9B/` | the answering model of `configs/qwen35-9b.json`: an unmodified copy of Qwen/Qwen3.5-9B at revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`, with its license and model card |
+| `region_head/<config>/` | the trained region head of each configuration (`head.safetensors`, `head.json`, `training_history.json`) |
+| `verifier/<config>/` | the trained pointer verifier of each configuration (`verifier.safetensors`, `verifier.json`, `training_history.json`) |
 
 ```bash
-HF_HUB_OFFLINE=0 hf download Qwen/Qwen3.5-9B --revision c202236235762e1c871ad0ccb60c8ee5ba337b9a \
-    --local-dir "$EARTHJEV_MODELS/Qwen3.5-9B"
+HF_HUB_OFFLINE=0 hf download daidaidaidai1dai/EarthJev --local-dir "$EARTHJEV_MODELS"
 python scripts/check_env.py --hash-model
 ```
 
-The check compares every file with the snapshot the paper used (16 files; the sha256 values are in
-`scripts/check_env.py`, `MODEL_FILES`) and fails on extra files: this revision has no `generation_config.json`, and
-one would change the decoding defaults. The `.cache` folder that `hf download` writes inside the directory is
-ignored. The tests (`pytest -m model` and `-m data`) need only the tokenizer and processor files, so for CPU-only
-work this is enough:
+The configurations name the module directories (`weights`) relative to `$EARTHJEV_MODELS` and the answering model's
+directory under it (`answerer`, `dir`). The check compares the trained modules (`EARTHJEV_FILES` in
+`scripts/check_env.py`) and every file of `Qwen3.5-9B/` with the snapshot the paper used (16 files, `MODEL_FILES`)
+by sha256, and fails on extra files in `Qwen3.5-9B/`: this revision has no `generation_config.json`, and one would
+change the decoding defaults. The `.cache` folder that `hf download` writes is ignored. The tests need only the
+trained modules and the tokenizer and processor files, so for CPU-only work this is enough:
 
 ```bash
-HF_HUB_OFFLINE=0 hf download Qwen/Qwen3.5-9B --revision c202236235762e1c871ad0ccb60c8ee5ba337b9a \
-    --local-dir "$EARTHJEV_MODELS/Qwen3.5-9B" --exclude "*.safetensors"
+HF_HUB_OFFLINE=0 hf download daidaidaidai1dai/EarthJev --local-dir "$EARTHJEV_MODELS" \
+    --exclude "Qwen3.5-9B/*.safetensors"
 ```
+
+`Qwen3.5-9B/` holds the same files as Qwen/Qwen3.5-9B at that revision, so an existing download of it in
+`$EARTHJEV_MODELS/Qwen3.5-9B` can be kept; `--include "region_head/*" "verifier/*"` then downloads only the trained
+modules.
 
 The second configuration, `configs/qwen3-vl-8b.json` (EarthJev with Qwen3-VL-8B, Table IV of the paper), uses
 Qwen3-VL-8B-Instruct at a fixed revision (17.5 GB):
@@ -207,10 +218,7 @@ python scripts/check_env.py --hash-model
 
 `check_env.py` checks its 16 files too (`VL_MODEL_FILES`). This revision has a `generation_config.json`, which belongs
 to it: it makes generation stop at `<|im_end|>`, as in the paper's runs. A missing Qwen3-VL-8B directory is only
-reported, since only that configuration needs it.
-
-The trained weights of EarthJev itself (the region head and the pointer verifier of each configuration, a few MB)
-are part of the repository (`weights/`).
+reported, since only that configuration needs it. Its trained modules are in the EarthJev repository above.
 
 ## 7. Benchmark data
 
@@ -223,9 +231,9 @@ at a pinned revision, converts it to the layout the question files expect, and c
 Run these in order; each step needs a little more of the setup.
 
 ```bash
-python scripts/check_env.py                      # 1. versions, GPU and kernels, WordNet, model, data
-python -m pytest -q -m "not data and not model"  # 2. CPU tests: repository files only
-python -m pytest -q -m model                     # 3. needs the models' processor files (no weights)
+python scripts/check_env.py                      # 1. versions, GPU and kernels, WordNet, weights, data
+python -m pytest -q -m "not data and not model"  # 2. CPU tests: repository files and the trained modules
+python -m pytest -q -m model                     # 3. needs the models' processor files (not their weights)
 python -m pytest -q -m data                      # 4. needs $EARTHJEV_DATA (and step 3's files)
 ```
 

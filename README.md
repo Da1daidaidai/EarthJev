@@ -5,7 +5,7 @@
 
 Anonymous authors (under review)
 
-[![Paper](https://img.shields.io/badge/Paper-under%20review-lightgrey.svg)](#reference)  [![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg)](docs/INSTALL.md)  [![PyTorch](https://img.shields.io/badge/PyTorch-2.10-EE4C2C.svg)](requirements/gpu.txt)  [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+[![Paper](https://img.shields.io/badge/Paper-under%20review-lightgrey.svg)](#reference)  [![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg)](docs/INSTALL.md)  [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Weights-EarthJev-yellow.svg)](https://huggingface.co/daidaidaidai1dai/EarthJev)  [![PyTorch](https://img.shields.io/badge/PyTorch-2.10-EE4C2C.svg)](requirements/gpu.txt)  [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
 [**Overview**](#overview) | [**Get Started**](#lets-get-started) | [**Results**](#results) | [**Common Issues**](#common-issues) | [**Reference**](#reference) | [**Acknowledgments**](#acknowledgments)
 
@@ -13,8 +13,8 @@ Anonymous authors (under review)
 
 ## 🛎Updates
 
-* **` Nov. 2026`**: Code, trained weights, calibration runs and reference outputs of EarthJev are released, for the
-  Qwen3.5-9B and Qwen3-VL-8B answering models!
+* **` Nov. 2026`**: Code, calibration runs and reference outputs of EarthJev are released, with the trained weights on
+  [Hugging Face](https://huggingface.co/daidaidaidai1dai/EarthJev), for the Qwen3.5-9B and Qwen3-VL-8B answering models!
 
 ## 🔭Overview
 
@@ -42,7 +42,6 @@ earthjev/        the method: pipeline.py (end to end), spv.py and pointers.py (S
                  (EDM), evidence.py, prompts.py, answerer.py and cas.py (presentations, answering, CAS), scoring.py
 earthjev/train/  training of the region head and the pointer verifier, fitting of the decision parameters
 configs/         the fitted parameters of each configuration (qwen35-9b, qwen3-vl-8b)
-weights/         the trained region head and pointer verifier of each configuration
 data/            question files, splits, image checksums and calibration runs (images are downloaded)
 reference/       records of the original pipeline, to check a reproduction against
 scripts/         prepare_data, check_env, run_earthjev, evaluate, check_live
@@ -80,7 +79,7 @@ flash-attn 2.8.1 and causal-conv1d 1.6.1 wheels (checked by sha256).
 
 ```bash
 export EARTHJEV_DATA=/data/earthjev/datasets      # benchmark images
-export EARTHJEV_MODELS=/data/earthjev/models      # answering models
+export EARTHJEV_MODELS=/data/earthjev/models      # weights (B. Download the Weights)
 export EARTHJEV_OUT=$HOME/earthjev-outputs        # run outputs
 export NLTK_DATA=/data/earthjev/nltk_data
 export HF_HUB_OFFLINE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 TOKENIZERS_PARALLELISM=false
@@ -88,24 +87,28 @@ export NUMPY_MADVISE_HUGEPAGE=0
 python -m nltk.downloader -d "$NLTK_DATA" wordnet omw-1.4
 ```
 
-**Step 4: Check the installation:**
+### `B. Download the Weights`
+
+The trained region heads and pointer verifiers and the Qwen3.5-9B answering model are on Hugging Face at
+[daidaidaidai1dai/EarthJev](https://huggingface.co/daidaidaidai1dai/EarthJev):
 
 ```bash
-python scripts/check_env.py
-python -m pytest -q -m "not data and not model"   # CPU tests, a few minutes
-```
-
-### `B. Download the Answering Models`
-
-The trained EarthJev modules are in `weights/`. The frozen answering models are downloaded from Hugging Face at the
-revisions the paper used:
-
-```bash
-HF_HUB_OFFLINE=0 hf download Qwen/Qwen3.5-9B --revision c202236235762e1c871ad0ccb60c8ee5ba337b9a \
-    --local-dir "$EARTHJEV_MODELS/Qwen3.5-9B"
+HF_HUB_OFFLINE=0 hf download daidaidaidai1dai/EarthJev --local-dir "$EARTHJEV_MODELS"           # 19.3 GB
 HF_HUB_OFFLINE=0 hf download Qwen/Qwen3-VL-8B-Instruct --revision 0c351dd01ed87e9c1b53cbc748cba10e6187ff3b \
     --local-dir "$EARTHJEV_MODELS/Qwen3-VL-8B-Instruct"      # only for the Qwen3-VL-8B configuration
-python scripts/check_env.py --hash-model                     # sha256 of every model file
+```
+
+| Path in `$EARTHJEV_MODELS` | Content |
+| :--- | :--- |
+| `Qwen3.5-9B/` | the answering model, an unmodified copy of [Qwen/Qwen3.5-9B](https://huggingface.co/Qwen/Qwen3.5-9B) at the revision the paper used |
+| `region_head/<config>/`, `verifier/<config>/` | the trained region head and pointer verifier of each configuration |
+
+Without a GPU, `--exclude "Qwen3.5-9B/*.safetensors"` skips the model weights: the tests, the evaluation and the
+fitting need only the trained modules and the processor files. Then check the installation:
+
+```bash
+python scripts/check_env.py --hash-model           # versions, kernels and the sha256 of every weight file
+python -m pytest -q -m "not data and not model"    # CPU tests, a few minutes
 ```
 
 ### `C. Data Preparation`
@@ -240,8 +243,8 @@ official evaluation code of these benchmarks and of [lmms-eval](https://github.c
 Thanks for their excellent works! Reused code and its licenses are listed in
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and the terms of the data in [docs/DATA.md](docs/DATA.md).
 
-The code, `configs/` and `weights/` are released under the [Apache License 2.0](LICENSE); the benchmark-derived data
-keep the terms of their sources.
+The code, `configs/` and the trained modules are released under the [Apache License 2.0](LICENSE); Qwen3.5-9B keeps
+its own Apache-2.0 license, and the benchmark-derived data keep the terms of their sources.
 
 ## 🙋Q & A
 

@@ -73,6 +73,16 @@ VL_MODEL_FILES = {
     'video_preprocessor_config.json': (385, '7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13'),
     'vocab.json': (2776833, 'ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910'),
 }
+EARTHJEV_FILES = {  # the trained modules (Hugging Face daidaidaidai1dai/EarthJev): sha256
+    'region_head/qwen35-9b/head.json': '97e25127523d4398fd57d2ecfaee44d4d5399cfc2fd479b2f0e9acc91505af5d',
+    'region_head/qwen35-9b/head.safetensors': '224eeebd4efa9eb4e6219013fa8c35b25ba7a9fff766ff205b0a6fa6a890e87b',
+    'verifier/qwen35-9b/verifier.json': 'd538e99c6f56fb47cd1e58d7e1004ff5116432e2b6f9eb43ed13c2b82ef28333',
+    'verifier/qwen35-9b/verifier.safetensors': 'e888aded04a7adbaa456cb297b7c86494da492acc59563d8a0b4468396ca4edf',
+    'region_head/qwen3-vl-8b/head.json': 'f8d0298a30c8c68b7a103489df7903d04197676526487a52d7c7f00875752dcb',
+    'region_head/qwen3-vl-8b/head.safetensors': 'a47d2fc190c0c2c2a49d986c7a55896a55f8b467613d9f42168cefaf7f2cdf31',
+    'verifier/qwen3-vl-8b/verifier.json': '9a36b8f00401747df2bd1dacafcca860636702e3b617fc0d3350ef07925b077e',
+    'verifier/qwen3-vl-8b/verifier.safetensors': '1a8ba82f0db90375ba8e79e1b1e621e22617632a8cb9e7dd35b90a767c560d48',
+}
 MODELS = {MODEL_DIR: ('c202236...', MODEL_FILES, 'qwen35-9b'),  # directory: (revision, files, configuration)
           VL_MODEL_DIR: ('0c351dd...', VL_MODEL_FILES, 'qwen3-vl-8b')}
 errors, warnings = [], []
@@ -246,16 +256,28 @@ def check_nltk():
 
 
 def check_model(hash_files):
-    print('answering models')
+    print('weights: trained modules and answering models')
     root = os.environ.get('EARTHJEV_MODELS')
     if not root:
-        bad('EARTHJEV_MODELS is not set: model tests and live runs need $EARTHJEV_MODELS/Qwen3.5-9B', warn=True)
+        bad('EARTHJEV_MODELS is not set: the tests, the fitting and live runs need the weights under it '
+            '(README, "B. Download the Weights")', warn=True)
         return
+    good = 0
+    for rel, digest in EARTHJEV_FILES.items():
+        p = Path(root) / rel
+        if not p.is_file():
+            bad(f'{p} is missing (README, "B. Download the Weights")', warn=True)
+        elif sha256(p) != digest:
+            bad(f'{p}: sha256 differs from the released weights')
+        else:
+            good += 1
+    if good == len(EARTHJEV_FILES):
+        ok(f'{root}: the {good} files of the trained modules match by sha256')
     for name, (revision, files, config) in MODELS.items():
         d = Path(root) / name
         if not d.is_dir():
             if name == MODEL_DIR:
-                bad(f'{d} does not exist (docs/INSTALL.md, "6. The answering model")', warn=True)
+                bad(f'{d} does not exist (docs/INSTALL.md, "6. The weights")', warn=True)
             else:  # needed only for the configuration that uses it
                 print(f'  info  {d} does not exist (needed only for configs/{config}.json)')
             continue
@@ -266,7 +288,7 @@ def check_model(hash_files):
         tests_only = name != MODEL_DIR and not any(d.glob('*.safetensors'))  # the second model's processor files only
         for fname, (size, digest) in files.items():
             p = d / fname
-            if not p.is_file():  # no weights are needed for CPU-only work (docs/INSTALL.md, "6. The answering model")
+            if not p.is_file():  # its weights are not needed for CPU-only work (docs/INSTALL.md, section 6)
                 weights = fname.endswith('.safetensors')
                 bad(f'{p} is missing', gpu=weights, warn=weights and tests_only)
             elif p.stat().st_size != size:

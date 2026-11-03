@@ -1,8 +1,9 @@
 # Training
 
 EarthJev trains two small modules on top of a frozen answering model, the region head (EDM) and the pointer verifier
-(SPV), and fits its calibration maps and thresholds. The released weights (`weights/`) and fitted parameters
-(`configs/`) are the reference; this page describes how they were produced and how to reproduce them.
+(SPV), and fits its calibration maps and thresholds. The released weights (`region_head/` and `verifier/` under
+`$EARTHJEV_MODELS`, README section B) and fitted parameters (`configs/`) are the reference; this page describes how
+they were produced and how to reproduce them.
 
 ## Steps
 
@@ -43,8 +44,8 @@ training (`verifier.json`, keys `temperature` and `tau`), and `cas.veto_threshol
 Each step reads the released artifacts of its configuration: `train_verifier zv` scores the crops with the released
 region head, and `fit_decisions` (and inference) use the released verifier. To chain retrained weights, copy the
 configuration file under the same name into another directory and set its `weights` entries to absolute paths (they
-are joined to the repository directory, which an absolute path replaces; `<out>` below is `$EARTHJEV_OUT` written
-out), then pass that file to the later steps:
+are joined to `$EARTHJEV_MODELS`, which an absolute path replaces; `<out>` below is `$EARTHJEV_OUT` written out), then
+pass that file to the later steps:
 
 ```bash
 C=$EARTHJEV_OUT/retrained/qwen35-9b.json

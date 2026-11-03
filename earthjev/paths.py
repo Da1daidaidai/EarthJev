@@ -3,7 +3,8 @@
 Everything outside the repository is found through three environment variables:
 
 - ``EARTHJEV_DATA``: root of the benchmark and training datasets (see docs/DATA.md);
-- ``EARTHJEV_MODELS``: directory holding the answering models (e.g. ``$EARTHJEV_MODELS/Qwen3.5-9B``);
+- ``EARTHJEV_MODELS``: directory holding the answering models and the trained modules, as downloaded from Hugging Face
+  (e.g. ``$EARTHJEV_MODELS/Qwen3.5-9B``, ``$EARTHJEV_MODELS/region_head/qwen35-9b``);
 - ``EARTHJEV_OUT``: where runs write their outputs (default: ``<repo>/outputs``).
 """
 import json
@@ -42,5 +43,9 @@ def load_config(name='qwen35-9b'):
 
 
 def weights_dir(cfg, part):
-    """Directory of the trained weights of one part ('region_head' or 'verifier') of a configuration."""
-    return REPO / cfg['weights'][part]
+    """Directory of the trained weights of one part ('region_head' or 'verifier') of a configuration: its entry in the
+    configuration, under $EARTHJEV_MODELS unless it is an absolute path."""
+    d = models_root() / cfg['weights'][part]
+    if not d.is_dir():
+        raise FileNotFoundError(f'{d} does not exist: download the weights (README, "B. Download the Weights")')
+    return d

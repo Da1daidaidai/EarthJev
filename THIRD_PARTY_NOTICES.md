@@ -3,7 +3,7 @@
 The code of this repository is licensed under the Apache License 2.0 (LICENSE). Parts of it are adapted from other
 projects or reproduce official evaluation code, listed below with their licenses. The benchmark data, the answering
 models and the Python packages they run with keep their own terms; none of the images, answering-model weights or
-packages is redistributed here.
+packages is redistributed here (the weights repository on Hugging Face holds an unmodified copy of Qwen3.5-9B, below).
 
 ## Code adapted from other projects
 
@@ -89,16 +89,17 @@ qwen-vl-utils package (Apache-2.0). `earthjev/answerer.py` imports `smart_resize
 
 ## Answering models
 
-Downloaded by the user (docs/INSTALL.md), each under the Apache License 2.0:
+Downloaded by the user (docs/INSTALL.md, section 6), each under the Apache License 2.0:
 
 - Qwen3.5-9B (https://huggingface.co/Qwen/Qwen3.5-9B, revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`), the
-  answering model of `configs/qwen35-9b.json`;
+  answering model of `configs/qwen35-9b.json`, redistributed unmodified with its license and model card in
+  `Qwen3.5-9B/` of the weights repository (https://huggingface.co/daidaidaidai1dai/EarthJev);
 - Qwen3-VL-8B-Instruct (https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct, revision
   `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b`), the answering model of `configs/qwen3-vl-8b.json`.
 
-The trained weights in `weights/region_head/<config>` and `weights/verifier/<config>` were trained on the hidden states of the
-configuration's answering model for crops of ZwZ-RL-VQA images (apache-2.0, see below; the images keep the terms of
-their sources). They are released with the code under Apache-2.0.
+The trained weights in `region_head/<config>` and `verifier/<config>` of the weights repository were trained on the
+hidden states of the configuration's answering model for crops of ZwZ-RL-VQA images (apache-2.0, see below; the
+images keep the terms of their sources). They are released under Apache-2.0, as the code is.
 
 ## Benchmark data
 

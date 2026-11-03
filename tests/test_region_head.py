@@ -17,7 +17,6 @@ from earthjev.region_head import RegionHead, decision_prompt, head_logits, promp
 from earthjev.train.train_region_head import fit_temperature, train_one
 
 FIXTURES = Path(__file__).parent / 'fixtures'
-WEIGHTS = paths.REPO / 'weights' / 'region_head' / 'qwen35-9b'
 GOLDEN = json.loads((FIXTURES / 'region_head_golden.json').read_text())
 
 
@@ -28,8 +27,9 @@ def test_prompt_text():
 
 
 def test_head_on_cached_features():
-    head = RegionHead.load(WEIGHTS)
-    assert sorted(head.state_dict()) == sorted(load_file(str(WEIGHTS / 'head.safetensors')))
+    weights = paths.weights_dir(paths.load_config(), 'region_head')
+    head = RegionHead.load(weights)
+    assert sorted(head.state_dict()) == sorted(load_file(str(weights / 'head.safetensors')))
     f = np.load(FIXTURES / 'region_head_features.npz')
     np.testing.assert_allclose(head_logits(head, f['features']), f['z'], rtol=0, atol=1e-5)  # bitwise on the
     # reference CPU; other BLAS builds may differ in the last bits

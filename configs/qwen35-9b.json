@@ -13,8 +13,8 @@
   }
  },
  "weights": {
-  "region_head": "weights/region_head/qwen35-9b",
-  "verifier": "weights/verifier/qwen35-9b"
+  "region_head": "region_head/qwen35-9b",
+  "verifier": "verifier/qwen35-9b"
  },
  "spv": {
   "trust_platt": [
