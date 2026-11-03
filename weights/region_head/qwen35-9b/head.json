@@ -1,0 +1,28 @@
+{
+ "max_train_questions": null,
+ "hidden_size": 4096,
+ "width": 256,
+ "temperature": 1.0472941228206265,
+ "lr": 0.001,
+ "lam": 0.0,
+ "epoch": 8,
+ "val_auroc_select": 0.918258274349414,
+ "val_auroc_all": 0.9342897804941139,
+ "val_within_auroc": 0.9286320763444209,
+ "val_ece15": 0.006516555847325399,
+ "val_ece15_uncalibrated": 0.005231010720331875,
+ "val_brier": 0.08531635254621506,
+ "n_crops": {
+  "train": 204522,
+  "val": 23253,
+  "calib": 22576
+ },
+ "n_questions": {
+  "train": 12000,
+  "val": 1366,
+  "calib": 1321
+ },
+ "budget_tokens": 256,
+ "selection": "ZwZ val pooled AUROC over centred/cell_d1/cell_d2",
+ "prompt": "earthjev.region_head (Vision-Jev \"noul\" prompt)"
+}

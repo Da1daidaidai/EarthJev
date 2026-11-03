@@ -1,0 +1,43 @@
+{
+ "stem": "How many white vehicles are parked near the building?",
+ "text": "Task: noul\n\nVisible state: The image is a zoomed-in crop of a much larger high-resolution image.\n\nQuestion: Does this image show the object or area that this question asks about: How many white vehicles are parked near the building?\n\nReturn exactly {\"noul\":true} or {\"noul\":false}.",
+ "view_sizes": [
+  [
+   576,
+   416
+  ],
+  [
+   288,
+   896
+  ]
+ ],
+ "tensors": {
+  "input_ids": "6134e911ed17c8569c0613eb5afe53a1b17c362c8a4bd53260be2c1c7edb84b8",
+  "attention_mask": "fd15c8c1999023db5c5e0e697ee3ec5ed0ccff2a08af4160b620c9d7eee50182",
+  "mm_token_type_ids": "468f0a87b96fd2f40f70537680c81edcda7d662a0a2b1c28093c5983bd2702c5",
+  "pixel_values": "36a0a0b9ce34c3548cf3026d6bff80e25725f50a43b0a3baced09558ee9ef181",
+  "image_grid_thw": "fb65fbd033c41ca49aa0e1be7081e0b81b18a396af5dcbacc18b55efcd8711dd"
+ },
+ "shapes": {
+  "input_ids": [
+   2,
+   356
+  ],
+  "attention_mask": [
+   2,
+   356
+  ],
+  "mm_token_type_ids": [
+   2,
+   356
+  ],
+  "pixel_values": [
+   1944,
+   1536
+  ],
+  "image_grid_thw": [
+   2,
+   3
+  ]
+ }
+}

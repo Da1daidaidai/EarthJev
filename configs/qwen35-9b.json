@@ -1,0 +1,88 @@
+{
+ "name": "earthjev-qwen35-9b",
+ "answerer": {
+  "hf_repo": "Qwen/Qwen3.5-9B",
+  "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "dir": "Qwen3.5-9B",
+  "dtype": "bfloat16",
+  "attn_implementation": "flash_attention_2",
+  "max_pixels": 1048576,
+  "max_new_tokens": {
+   "multiple_choice": 16,
+   "open_ended": 32
+  }
+ },
+ "weights": {
+  "region_head": "weights/region_head/qwen35-9b",
+  "verifier": "weights/verifier/qwen35-9b"
+ },
+ "spv": {
+  "trust_platt": [
+   2.099521741843329,
+   1.3687907518873987
+  ],
+  "tau_fast": 0.6,
+  "tau_keep": 0.0,
+  "tau_opt": 0.6270990120887069,
+  "temperature": 1.023373891996775
+ },
+ "cas": {
+  "answer_platt": {
+   "mme_rs": {
+    "canvas": [
+     0.8072174041122822,
+     -0.7387807106907923
+    ],
+    "memory": [
+     0.7513544077598807,
+     -0.3200692489482535
+    ]
+   },
+   "xlrs_lite": {
+    "canvas": [
+     0.3324593781043785,
+     -0.40109156976302957
+    ],
+    "memory": [
+     0.6321796957369538,
+     -0.5410092990100736
+    ]
+   },
+   "rshr": {
+    "canvas": [
+     0.46394608597969306,
+     -0.4843351699381133
+    ],
+    "memory": [
+     0.6882136012687087,
+     -0.4506007691459868
+    ]
+   },
+   "lrs_vqa": {
+    "canvas": [
+     2.581451162364714,
+     0.5598530435273876
+    ],
+    "memory": [
+     4.308925832189839,
+     1.1523650679818547
+    ]
+   },
+   "lrs_gro": {
+    "canvas": [
+     4.651040417877426,
+     1.503161121025502
+    ],
+    "memory": [
+     5.617267070315871,
+     1.9077611058928179
+    ]
+   }
+  },
+  "presence_platt": [
+   1.0378820507165176,
+   1.6361873220546175
+  ],
+  "veto_threshold": 0.5
+ }
+}

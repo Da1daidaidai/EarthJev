@@ -1,0 +1,793 @@
+{
+ "rows": [
+  {
+   "row": {
+    "stem": "What is the color of the car near the harbor entrance?",
+    "choice_options": [
+     "(A) Red",
+     "(B) Blue",
+     "(C) White",
+     "(D) Black",
+     "(E) The image does not feature the car."
+    ],
+    "is_mcq": true,
+    "question": "What is the color of the car near the harbor entrance?\n The choices are listed below: \n(A) Red\n(B) Blue\n(C) White\n(D) Black\n(E) The image does not feature the car.\nSelect the best answer to the above multiple-choice question based on the image. Respond with only the letter (A, B, C, D, or E) of the correct option.\nThe best answer is:"
+   },
+   "system": "Reply with only the letter of the correct option. Do not explain.",
+   "canvas": "The input image has been padded with gray borders. When answering questions, the VLM should take these gray padding areas into account\nQuestion:\nWhat is the color of the car near the harbor entrance?\n The choices are listed below: \n(A) Red\n(B) Blue\n(C) White\n(D) Black\n(E) The image does not feature the car.\nSelect the best answer to the above multiple-choice question based on the image. Respond with only the letter (A, B, C, D, or E) of the correct option.\nThe best answer is:",
+   "query": "What is the color of the car near the harbor entrance?\n(A) Red\n(B) Blue\n(C) White\n(D) Black\n(E) The image does not feature the car.",
+   "evidence": "Question: What is the color of the car near the harbor entrance?\n(A) Red\n(B) Blue\n(C) White\n(D) Black\n(E) The image does not feature the car.\n\nBased on the current image crop shown:\n- Is the target object/subject mentioned in the question present in this cropped region?\n- Can you see the relevant visual content needed to answer this question?\n\nAnswer: Yes or No.",
+   "decision": "Does this image show the object or area that this question asks about: What is the color of the car near the harbor entrance?",
+   "size": [
+    6000,
+    4000
+   ],
+   "boxes": [
+    [
+     0,
+     0,
+     512,
+     512
+    ],
+    [
+     1000,
+     1200,
+     3100,
+     2400
+    ],
+    [
+     5488,
+     3488,
+     6000,
+     4000
+    ]
+   ],
+   "notes": [
+    "the region referenced in the question",
+    null,
+    "the region of option A; the region of option B"
+   ],
+   "memory": "Image 1 is the whole remote-sensing image (6000x4000 pixels, downsampled). Images 2-4 are full-resolution zoomed views of regions of the same image; their positions in the whole image as normalized [x1,y1,x2,y2] in 0-1000 are:\nImage 2: [0,0,85,128] (the region referenced in the question)\nImage 3: [167,300,517,600]\nImage 4: [915,872,1000,1000] (the region of option A; the region of option B)\nUse all images to answer.\nWhat is the color of the car near the harbor entrance?\n The choices are listed below: \n(A) Red\n(B) Blue\n(C) White\n(D) Black\n(E) The image does not feature the car.\nSelect the best answer to the above multiple-choice question based on the image. Respond with only the letter (A, B, C, D, or E) of the correct option.\nThe best answer is:",
+   "sizes": [
+    [
+     3000,
+     2000
+    ],
+    [
+     2999,
+     2001
+    ]
+   ],
+   "boxes_multi": [
+    [
+     [
+      0,
+      0,
+      600,
+      600
+     ]
+    ],
+    [
+     [
+      100,
+      100,
+      700,
+      900
+     ],
+     [
+      5,
+      6,
+      900,
+      1000
+     ]
+    ]
+   ],
+   "memory_multi": "Images 1-2 are the 2 whole remote-sensing images (3000x2000, 2999x2001 pixels, downsampled). Images 3-5 are full-resolution zoomed views of regions of them; for each view, the whole image it comes from and its position in that image as normalized [x1,y1,x2,y2] in 0-1000 are:\nImage 3: image 1 [0,0,200,300]\nImage 4: image 2 [33,50,233,450]\nImage 5: image 2 [2,3,300,500]\nUse all images to answer.\nWhat is the color of the car near the harbor entrance?\n The choices are listed below: \n(A) Red\n(B) Blue\n(C) White\n(D) Black\n(E) The image does not feature the car.\nSelect the best answer to the above multiple-choice question based on the image. Respond with only the letter (A, B, C, D, or E) of the correct option.\nThe best answer is:"
+  },
+  {
+   "row": {
+    "stem": "Which land-use types appear in the image?",
+    "choice_options": [
+     "A. farmland",
+     "B. forest",
+     "C. water"
+    ],
+    "is_mcq": true,
+    "multi_choice": true,
+    "question": "Which land-use types appear in the image?\nA. farmland\nB. forest\nC. water\nAnswer with the option's letter(s) from the given choices directly."
+   },
+   "system": "Reply with only the letter(s) of the correct option(s), separated by spaces. Do not explain.",
+   "canvas": "The input image has been padded with gray borders. When answering questions, the VLM should take these gray padding areas into account\nQuestion:\nWhich land-use types appear in the image?\nA. farmland\nB. forest\nC. water\nAnswer with the option's letter(s) from the given choices directly.",
+   "query": "Which land-use types appear in the image?\nA. farmland\nB. forest\nC. water",
+   "evidence": "Question: Which land-use types appear in the image?\nA. farmland\nB. forest\nC. water\n\nBased on the current image crop shown:\n- Is the target object/subject mentioned in the question present in this cropped region?\n- Can you see the relevant visual content needed to answer this question?\n\nAnswer: Yes or No.",
+   "decision": "Does this image show the object or area that this question asks about: Which land-use types appear in the image?",
+   "size": [
+    6000,
+    4000
+   ],
+   "boxes": [
+    [
+     0,
+     0,
+     512,
+     512
+    ],
+    [
+     1000,
+     1200,
+     3100,
+     2400
+    ],
+    [
+     5488,
+     3488,
+     6000,
+     4000
+    ]
+   ],
+   "notes": [
+    "the region referenced in the question",
+    null,
+    "the region of option A; the region of option B"
+   ],
+   "memory": "Image 1 is the whole remote-sensing image (6000x4000 pixels, downsampled). Images 2-4 are full-resolution zoomed views of regions of the same image; their positions in the whole image as normalized [x1,y1,x2,y2] in 0-1000 are:\nImage 2: [0,0,85,128] (the region referenced in the question)\nImage 3: [167,300,517,600]\nImage 4: [915,872,1000,1000] (the region of option A; the region of option B)\nUse all images to answer.\nWhich land-use types appear in the image?\nA. farmland\nB. forest\nC. water\nAnswer with the option's letter(s) from the given choices directly.",
+   "sizes": [
+    [
+     3000,
+     2000
+    ],
+    [
+     2999,
+     2001
+    ]
+   ],
+   "boxes_multi": [
+    [
+     [
+      0,
+      0,
+      600,
+      600
+     ]
+    ],
+    [
+     [
+      100,
+      100,
+      700,
+      900
+     ],
+     [
+      5,
+      6,
+      900,
+      1000
+     ]
+    ]
+   ],
+   "memory_multi": "Images 1-2 are the 2 whole remote-sensing images (3000x2000, 2999x2001 pixels, downsampled). Images 3-5 are full-resolution zoomed views of regions of them; for each view, the whole image it comes from and its position in that image as normalized [x1,y1,x2,y2] in 0-1000 are:\nImage 3: image 1 [0,0,200,300]\nImage 4: image 2 [33,50,233,450]\nImage 5: image 2 [2,3,300,500]\nUse all images to answer.\nWhich land-use types appear in the image?\nA. farmland\nB. forest\nC. water\nAnswer with the option's letter(s) from the given choices directly."
+  },
+  {
+   "row": {
+    "stem": "How many ships are docked at the pier in the region [120, 40, 380, 260]?",
+    "choice_options": [],
+    "is_mcq": false,
+    "question": "How many ships are docked at the pier in the region [120, 40, 380, 260]?\nAnswer the question using a single word or phrase."
+   },
+   "system": "Reply with only a single word or phrase. Do not explain or describe the images.",
+   "canvas": "The input image has been padded with gray borders. When answering questions, the VLM should take these gray padding areas into account\nQuestion:\nHow many ships are docked at the pier in the region [120, 40, 380, 260]?\nAnswer the question using a single word or phrase.",
+   "query": "How many ships are docked at the pier in the region [120, 40, 380, 260]?",
+   "evidence": "Question: How many ships are docked at the pier in the region [120, 40, 380, 260]?\n\nBased on the current image crop shown:\n- Is the target object/subject mentioned in the question present in this cropped region?\n- Can you see the relevant visual content needed to answer this question?\n\nAnswer: Yes or No.",
+   "decision": "Does this image show the object or area that this question asks about: How many ships are docked at the pier in the region [120, 40, 380, 260]?",
+   "size": [
+    6000,
+    4000
+   ],
+   "boxes": [
+    [
+     0,
+     0,
+     512,
+     512
+    ],
+    [
+     1000,
+     1200,
+     3100,
+     2400
+    ],
+    [
+     5488,
+     3488,
+     6000,
+     4000
+    ]
+   ],
+   "notes": [
+    "the region referenced in the question",
+    null,
+    "the region of option A; the region of option B"
+   ],
+   "memory": "Image 1 is the whole remote-sensing image (6000x4000 pixels, downsampled). Images 2-4 are full-resolution zoomed views of regions of the same image; their positions in the whole image as normalized [x1,y1,x2,y2] in 0-1000 are:\nImage 2: [0,0,85,128] (the region referenced in the question)\nImage 3: [167,300,517,600]\nImage 4: [915,872,1000,1000] (the region of option A; the region of option B)\nUse all images to answer.\nHow many ships are docked at the pier in the region [120, 40, 380, 260]?\nAnswer the question using a single word or phrase.",
+   "sizes": [
+    [
+     3000,
+     2000
+    ],
+    [
+     2999,
+     2001
+    ]
+   ],
+   "boxes_multi": [
+    [
+     [
+      0,
+      0,
+      600,
+      600
+     ]
+    ],
+    [
+     [
+      100,
+      100,
+      700,
+      900
+     ],
+     [
+      5,
+      6,
+      900,
+      1000
+     ]
+    ]
+   ],
+   "memory_multi": "Images 1-2 are the 2 whole remote-sensing images (3000x2000, 2999x2001 pixels, downsampled). Images 3-5 are full-resolution zoomed views of regions of them; for each view, the whole image it comes from and its position in that image as normalized [x1,y1,x2,y2] in 0-1000 are:\nImage 3: image 1 [0,0,200,300]\nImage 4: image 2 [33,50,233,450]\nImage 5: image 2 [2,3,300,500]\nUse all images to answer.\nHow many ships are docked at the pier in the region [120, 40, 380, 260]?\nAnswer the question using a single word or phrase."
+  },
+  {
+   "row": {
+    "stem": "Is there a {curly} runway?",
+    "choice_options": [],
+    "is_mcq": false,
+    "multi_choice": false,
+    "question": "Is there a {curly} runway?\nAnswer the question using a single word or phrase."
+   },
+   "system": "Reply with only a single word or phrase. Do not explain or describe the images.",
+   "canvas": "The input image has been padded with gray borders. When answering questions, the VLM should take these gray padding areas into account\nQuestion:\nIs there a {curly} runway?\nAnswer the question using a single word or phrase.",
+   "query": "Is there a {curly} runway?",
+   "evidence": "Question: Is there a {curly} runway?\n\nBased on the current image crop shown:\n- Is the target object/subject mentioned in the question present in this cropped region?\n- Can you see the relevant visual content needed to answer this question?\n\nAnswer: Yes or No.",
+   "decision": "Does this image show the object or area that this question asks about: Is there a {curly} runway?",
+   "size": [
+    6000,
+    4000
+   ],
+   "boxes": [
+    [
+     0,
+     0,
+     512,
+     512
+    ],
+    [
+     1000,
+     1200,
+     3100,
+     2400
+    ],
+    [
+     5488,
+     3488,
+     6000,
+     4000
+    ]
+   ],
+   "notes": [
+    "the region referenced in the question",
+    null,
+    "the region of option A; the region of option B"
+   ],
+   "memory": "Image 1 is the whole remote-sensing image (6000x4000 pixels, downsampled). Images 2-4 are full-resolution zoomed views of regions of the same image; their positions in the whole image as normalized [x1,y1,x2,y2] in 0-1000 are:\nImage 2: [0,0,85,128] (the region referenced in the question)\nImage 3: [167,300,517,600]\nImage 4: [915,872,1000,1000] (the region of option A; the region of option B)\nUse all images to answer.\nIs there a {curly} runway?\nAnswer the question using a single word or phrase.",
+   "sizes": [
+    [
+     3000,
+     2000
+    ],
+    [
+     2999,
+     2001
+    ]
+   ],
+   "boxes_multi": [
+    [
+     [
+      0,
+      0,
+      600,
+      600
+     ]
+    ],
+    [
+     [
+      100,
+      100,
+      700,
+      900
+     ],
+     [
+      5,
+      6,
+      900,
+      1000
+     ]
+    ]
+   ],
+   "memory_multi": "Images 1-2 are the 2 whole remote-sensing images (3000x2000, 2999x2001 pixels, downsampled). Images 3-5 are full-resolution zoomed views of regions of them; for each view, the whole image it comes from and its position in that image as normalized [x1,y1,x2,y2] in 0-1000 are:\nImage 3: image 1 [0,0,200,300]\nImage 4: image 2 [33,50,233,450]\nImage 5: image 2 [2,3,300,500]\nUse all images to answer.\nIs there a {curly} runway?\nAnswer the question using a single word or phrase."
+  }
+ ],
+ "decision_state": "The image is a zoomed-in crop of a much larger high-resolution image.",
+ "letter_token_ids": [
+  [
+   32,
+   357,
+   4205,
+   22269
+  ],
+  [
+   33,
+   417,
+   5181,
+   12424
+  ],
+  [
+   34,
+   351,
+   2929,
+   6062
+  ],
+  [
+   35,
+   414,
+   5263,
+   10637
+  ],
+  [
+   36,
+   458,
+   10406,
+   22075
+  ]
+ ],
+ "yes_no": [
+  9175,
+  2665
+ ],
+ "generate": [
+  {
+   "images": [
+    [
+     [
+      2000,
+      1500
+     ],
+     1048576
+    ]
+   ],
+   "text": "The input image has been padded...\nQuestion:\nWhat is it?",
+   "system": "Reply with only the letter of the correct option. Do not explain.",
+   "max_new_tokens": 16,
+   "out": {
+    "output": "Dno)A Dno)A Dno)A Dno)",
+    "tok_lp": [
+     0.0
+    ],
+    "letter_lp": [
+     -48.16337966918945,
+     -49.26442337036133,
+     -47.90398406982422,
+     -44.62274932861328,
+     -45.489681243896484
+    ],
+    "ended": true
+   },
+   "call": {
+    "kind": "generate",
+    "flags": {
+     "do_sample": "False",
+     "max_new_tokens": "16",
+     "output_logits": "True",
+     "return_dict_in_generate": "True"
+    },
+    "tensors": {
+     "attention_mask": "torch.int64|[1, 1020]|7cf4c3a7db9fb0cfa4bf1befbc981cd11ca56dd6645244975233b6f30c893026",
+     "image_grid_thw": "torch.int64|[1, 3]|181a33b868ccb26b350b9d5252776fcc1a06e50e83fb1b5982446a20cb9910c7",
+     "input_ids": "torch.int64|[1, 1020]|3730107a7baf98c63f8165afb252ab196890e844be09004a61ad82f2691c4a2e",
+     "mm_token_type_ids": "torch.int64|[1, 1020]|00ecb32020e47a7a8383c29dc893102517fd49be294237e92878f3d317d38156",
+     "pixel_values": "torch.float32|[3888, 1536]|063dd53fc5c16544717b1b721c13af208fdd76ed86ce6f54b4e484b74790c2c0"
+    }
+   }
+  },
+  {
+   "images": [
+    [
+     [
+      1500,
+      1000
+     ],
+     1048576
+    ],
+    [
+     [
+      1024,
+      700
+     ],
+     1048576
+    ],
+    [
+     [
+      700,
+      1024
+     ],
+     1048576
+    ]
+   ],
+   "text": "Image 1 is the whole remote-sensing image (1500x1000 pixels, downsampled). Images 2-3 are full-resolution zoomed views of regions of the same image; their positions in the whole image as normalized [x1,y1,x2,y2] in 0-1000 are:\nImage 2: [0,0,467,700]\nImage 3: [533,0,1000,1000]\nUse all images to answer.\nHow many ships are there?\nAnswer the question using a single word or phrase.",
+   "system": "Reply with only a single word or phrase. Do not explain or describe the images.",
+   "max_new_tokens": 32,
+   "out": {
+    "output": ")A Dno)A Dno)A Dno)A Dno)A Dno)A Dno)A Dno) Dno",
+    "tok_lp": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "letter_lp": [
+     -50.27925491333008,
+     -51.62004852294922,
+     -48.760047912597656,
+     -50.97402572631836,
+     -53.1591796875
+    ],
+    "ended": true
+   },
+   "call": {
+    "kind": "generate",
+    "flags": {
+     "do_sample": "False",
+     "max_new_tokens": "32",
+     "output_logits": "True",
+     "return_dict_in_generate": "True"
+    },
+    "tensors": {
+     "attention_mask": "torch.int64|[1, 2599]|45e98ebed5f6c2dd5d613592c5ef621744dc03b250f18235abb5d3ecab9e0435",
+     "image_grid_thw": "torch.int64|[3, 3]|16e864868ae824af3cea3343bdcb367946031766d3ffc65399ebfbffc08be6d9",
+     "input_ids": "torch.int64|[1, 2599]|6c39ecaca6d4eed3d12a09c337783a2d73051b95ef5e180219d612feecf4a836",
+     "mm_token_type_ids": "torch.int64|[1, 2599]|62e58ada606b691530345a85a3843d5e31b620085c4b3bfc9f52e5465a865f07",
+     "pixel_values": "torch.float32|[9688, 1536]|31cac4b711bb9dbb0e785b3efe88b4327f5de34bcbd0f42ba8d0605de6ba122b"
+    }
+   }
+  },
+  {
+   "images": [
+    [
+     [
+      640,
+      480
+     ],
+     1048576
+    ]
+   ],
+   "text": "Question:\nIs there a runway?",
+   "system": "Reply with only a single word or phrase.",
+   "max_new_tokens": 32,
+   "out": {
+    "output": "B(E road B(E road B(E road B(E road B(E road B(E road B(E road B(E road",
+    "tok_lp": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "letter_lp": [
+     -48.967769622802734,
+     -51.7543830871582,
+     -54.950469970703125,
+     -52.66017150878906,
+     -52.66582107543945
+    ],
+    "ended": false
+   },
+   "call": {
+    "kind": "generate",
+    "flags": {
+     "do_sample": "False",
+     "max_new_tokens": "32",
+     "output_logits": "True",
+     "return_dict_in_generate": "True"
+    },
+    "tensors": {
+     "attention_mask": "torch.int64|[1, 336]|9a1f8ad4022c4d234e954fad286ae5c0db50e21b7f9f1eff6a0b60ba9f0ffdff",
+     "image_grid_thw": "torch.int64|[1, 3]|d57d75cd100b84d70668fa90c17881ed8d1fcb7bb199a216e050a284b48dfe0e",
+     "input_ids": "torch.int64|[1, 336]|0629b915fdcf701d362d634e41a2a0a321b098d174685033321930103f0ac264",
+     "mm_token_type_ids": "torch.int64|[1, 336]|b256894d1629b4a5d00d71663834ce9a2e83948f081cd3139f6465fa14c74a80",
+     "pixel_values": "torch.float32|[1200, 1536]|e70f9b8b27f54879c561898e2b31f26a96b63c55d7b39f53f4e49df2a2a3e85b"
+    }
+   }
+  },
+  {
+   "images": [
+    [
+     [
+      300,
+      3000
+     ],
+     262144
+    ],
+    [
+     [
+      50,
+      40
+     ],
+     1048576
+    ]
+   ],
+   "text": "Two images: compare them.",
+   "system": "Reply.",
+   "max_new_tokens": 16,
+   "out": {
+    "output": "B(E road B(E road B(E road B(E road",
+    "tok_lp": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "letter_lp": [
+     -42.04582214355469,
+     -43.315277099609375,
+     -45.682186126708984,
+     -47.980018615722656,
+     -46.92497253417969
+    ],
+    "ended": false
+   },
+   "call": {
+    "kind": "generate",
+    "flags": {
+     "do_sample": "False",
+     "max_new_tokens": "16",
+     "output_logits": "True",
+     "return_dict_in_generate": "True"
+    },
+    "tensors": {
+     "attention_mask": "torch.int64|[1, 351]|4b4d2038a97d8fb3b6ab5b57094331716dbccb85c19f876db8bceb729dd54396",
+     "image_grid_thw": "torch.int64|[2, 3]|978a57ad5ddf1578df97937424c6ff90a03e810db3d93c3c5a02d3858485c98f",
+     "input_ids": "torch.int64|[1, 351]|a6266f7b8363a77dbf03051e3048f8d0267afed0e5ea8e01e220539e5d46c1ac",
+     "mm_token_type_ids": "torch.int64|[1, 351]|5e33b7a9e74b4378d717ba8176a377034202c4ff193a6ccf55ee05351a2ab325",
+     "pixel_values": "torch.float32|[1288, 1536]|84d2769504d44d6d9395538cbc0491b92f3b4045c592e905251a0cb5b7277c48"
+    }
+   }
+  },
+  {
+   "images": [
+    [
+     [
+      800,
+      800
+     ],
+     1048576
+    ]
+   ],
+   "text": "Which option?",
+   "system": "Reply with only the letter of the correct option.",
+   "max_new_tokens": 16,
+   "out": {
+    "output": "B road B(E road B(E road B(E road",
+    "tok_lp": [
+     0.0,
+     0.0
+    ],
+    "letter_lp": [
+     -49.10350036621094,
+     0.0,
+     -53.08695983886719,
+     -52.02185821533203,
+     -47.87220001220703
+    ],
+    "ended": true
+   },
+   "call": {
+    "kind": "generate",
+    "flags": {
+     "do_sample": "False",
+     "max_new_tokens": "16",
+     "output_logits": "True",
+     "return_dict_in_generate": "True"
+    },
+    "tensors": {
+     "attention_mask": "torch.int64|[1, 657]|41a3fd37dd0ed3c7678220ecfe187f5971f8a27b3f9d171e86dd23fb14d22b2a",
+     "image_grid_thw": "torch.int64|[1, 3]|510b595fa075140a06829fa349615318e73e16ba5a0f976cfef505118be2528e",
+     "input_ids": "torch.int64|[1, 657]|71f634122156d04fc46f60b25ccd62f3d206a7afb9374e6eaa6b7ded79fd6d64",
+     "mm_token_type_ids": "torch.int64|[1, 657]|99c4a16be3ea11b4feb2772631ba0e6fa095256dfcfdf34fa77b54a778201777",
+     "pixel_values": "torch.float32|[2500, 1536]|d2de0cc412c40fa6c698485847947a198ba749b3593898d16176355556ed564d"
+    }
+   }
+  },
+  {
+   "images": [
+    [
+     [
+      1200,
+      300
+     ],
+     1048576
+    ]
+   ],
+   "text": "Count the planes.",
+   "system": "Reply with only a single word or phrase.",
+   "max_new_tokens": 16,
+   "out": {
+    "output": "Dno)A Dno)A Dno)A Dno)",
+    "tok_lp": [
+     0.0
+    ],
+    "letter_lp": [
+     -50.028011322021484,
+     -48.77206802368164,
+     -50.279720306396484,
+     -52.577274322509766,
+     -51.05546188354492
+    ],
+    "ended": true
+   },
+   "call": {
+    "kind": "generate",
+    "flags": {
+     "do_sample": "False",
+     "max_new_tokens": "16",
+     "output_logits": "True",
+     "return_dict_in_generate": "True"
+    },
+    "tensors": {
+     "attention_mask": "torch.int64|[1, 374]|7258defa6f253ef2308a5bf3dd871ddb2a58f0669335cb70f29e3635d08b708e",
+     "image_grid_thw": "torch.int64|[1, 3]|59d87c6eff6da18694fd03336f2b50870583c6d02147c8ccd2e2dbf7db23d9ae",
+     "input_ids": "torch.int64|[1, 374]|5c962e63c7425bb4f9fd32950fecba609d5e13c467f5df644801772ebff261e2",
+     "mm_token_type_ids": "torch.int64|[1, 374]|e49cfefd4b41f40bfdb951e65db9b2931c02dda8760f4468350876ea428e74c2",
+     "pixel_values": "torch.float32|[1368, 1536]|98d41d0eae9a304613d45a6a8f764ae41fbf0701b5aa6ed94b6c932dd85abffa"
+    }
+   }
+  }
+ ],
+ "yes": [
+  {
+   "size": [
+    448,
+    448
+   ],
+   "query": "Is there a ship?",
+   "y": 0.9995121955871582,
+   "call": {
+    "kind": "forward",
+    "flags": {
+     "logits_to_keep": "1"
+    },
+    "tensors": {
+     "attention_mask": "torch.int64|[1, 266]|eead9fd20f89a0b0922cc9251d685800995bdb6f001d93baeb0fe1d3301584f3",
+     "image_grid_thw": "torch.int64|[1, 3]|4f4e4125b4f4650e669e646443bb6c1468449f2366872edb060aa01bb4b30f19",
+     "input_ids": "torch.int64|[1, 266]|16081db30ff63c27a0c6b301a3841aedd191481e24f22ac7e02be93d5e6a236d",
+     "mm_token_type_ids": "torch.int64|[1, 266]|6b5ca807a9d61a698abe5edc580dec93093c86334d2a560e86dd1a96000466e2",
+     "pixel_values": "torch.float32|[784, 1536]|33fca6e78bb031e322169d59912e9ca6d4d4472d74b677358578e9076f92fca6"
+    }
+   }
+  },
+  {
+   "size": [
+    600,
+    300
+   ],
+   "query": "What color is the car?\n(A) red\n(B) blue",
+   "y": 0.021125193685293198,
+   "call": {
+    "kind": "forward",
+    "flags": {
+     "logits_to_keep": "1"
+    },
+    "tensors": {
+     "attention_mask": "torch.int64|[1, 250]|0a9e0c6b498af8921ec58eccf40d13f4e8f6e49f93e8f7f5dffab6ed4a5ae671",
+     "image_grid_thw": "torch.int64|[1, 3]|fadf9c53784b248741bb0bc18d078f819965398ab6ff75fafe2e99fcd26efc5f",
+     "input_ids": "torch.int64|[1, 250]|4261c558509da5c762b801cc880818d3bab87fd478ba5f25b36a942062ae4af8",
+     "mm_token_type_ids": "torch.int64|[1, 250]|65546aa63bdb2b3cfeb57bc57bf6a0bbf11fb9d1a742cfc1a80359ce231771d4",
+     "pixel_values": "torch.float32|[684, 1536]|e394e92a485cf5134413635f1c2c927bcc474b61ee935afeb094c64e023fbaa8"
+    }
+   }
+  },
+  {
+   "size": [
+    2000,
+    220
+   ],
+   "query": "Is the {runway} visible?",
+   "y": 0.3415825068950653,
+   "call": {
+    "kind": "forward",
+    "flags": {
+     "logits_to_keep": "1"
+    },
+    "tensors": {
+     "attention_mask": "torch.int64|[1, 313]|e23b5e6b5df394fc49b4f21623443bc00c1ee0e4bf002301071446b5d8ff20e0",
+     "image_grid_thw": "torch.int64|[1, 3]|77c67c973040d0fa6fc4a5e90f0fc348cbcbe2e74ba62c29be9fdcb98d4b856e",
+     "input_ids": "torch.int64|[1, 313]|ad09b425da5dc3ac2423f77d7e234c9af1ce63abc8336488795c0d7d189f8f9e",
+     "mm_token_type_ids": "torch.int64|[1, 313]|2627c8802692dc51e5ebd608882292cda596c5e0da2de0bbda459edb8df5bbec",
+     "pixel_values": "torch.float32|[960, 1536]|cbba106dd753f3e72306eb6ac59a3f87a7fed438c5266ead15f4ccd9f46154e8"
+    }
+   }
+  }
+ ]
+}

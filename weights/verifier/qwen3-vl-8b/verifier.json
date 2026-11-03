@@ -1,0 +1,30 @@
+{
+ "rho": 0.25,
+ "width": 256,
+ "lr": 0.001,
+ "epoch": 4,
+ "select": 0.9244759396750638,
+ "temperature": 1.0717734625362931,
+ "tau": 0.739141066114923,
+ "tau_target_precision": 0.9,
+ "tau_val_coverage": 0.7565104166666666,
+ "tau_val_auroc": 0.9061453798154755,
+ "mean_gate_val": {
+  "correct": 0.5988529324531555,
+  "corrupt": 0.529289960861206
+ },
+ "val": {
+  "epoch": 4,
+  "loss": 0.21857421100139618,
+  "auroc_none": 0.9077733227770654,
+  "auroc_correct": 0.99791684977987,
+  "auroc_corrupt": 0.8677376464682561,
+  "auroc_mix": 0.9615839469785211,
+  "auroc_proposal_mix": 0.8996723460026212,
+  "select": 0.9244759396750638
+ },
+ "n_geo": 22,
+ "selection": "mean ZwZ-val AUROC (none, correct, corrupt references; centred/cell_d1/cell_d2 + proposal-mode)",
+ "tau_learned": 0.7669360041618347,
+ "phrase": "rule"
+}
