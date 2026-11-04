@@ -5,8 +5,8 @@
 
 <p align="center">
   <strong><em>
-    Pengyu Dai<sup>1,2,*</sup>, Yao Zhang<sup>3,*</sup>, Wei Guo<sup>1,†</sup>, Jian Liang<sup>1</sup>,<br>
-    Jian Song<sup>3</sup>, Yafei Ou<sup>3</sup>, Hongruixuan Chen<sup>3,</sup>, Naoto Yokoya<sup>1,2†</sup>
+    Pengyu Dai<sup>1,2,*</sup>, Yao Zhang<sup>3,*</sup>, Jian Song<sup>1,</sup>, Junjue Wang<sup>1</sup>, Yafei Ou<sup>1</sup>,<br>
+    Yuzeng Chen<sup>3</sup>, Junshi Xia<sup>3</sup>, Hongruixuan Chen<sup>3,</sup>, Naoto Yokoya<sup>1,2†</sup>
   </em></strong>
 </p>
 
