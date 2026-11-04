@@ -221,9 +221,7 @@ the review.
 
 ## 🤝Acknowledgments
 
-This project builds on Vision-Jev ([code](https://github.com/LMDHQ-0420/Vision-Jev)), VISTA
-([paper](https://arxiv.org/abs/2610.02200), [code](https://github.com/joshhhhhan/VISTA)) and ZoomSearch
-([paper](https://arxiv.org/abs/2511.20460), [code](https://github.com/kiki-zyq/ZoomSearch)). It uses the
+This project uses the
 [Qwen3.5-9B](https://huggingface.co/Qwen/Qwen3.5-9B) and [Qwen3-VL-8B-Instruct](https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct)
 models, the [ZwZ-RL-VQA](https://huggingface.co/datasets/inclusionAI/ZwZ-RL-VQA) data, the benchmarks
 [MME-RealWorld](https://github.com/MME-Benchmarks/MME-RealWorld), [LRS-VQA](https://github.com/VisionXLab/LRS-VQA),
