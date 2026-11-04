@@ -1,7 +1,6 @@
 <div align="center">
-<h1 align="center">EarthJev</h1>
+<h1 align="center">EarthJev: Efficient Visual Evidence Acquisition and Decision for UHR Remote Sensing Understanding</h1>
 
-<h3>EarthJev: Efficient Visual Evidence Acquisition and Decision for UHR Remote Sensing Understanding</h3>
 
 <p align="center">
   <strong><em>
