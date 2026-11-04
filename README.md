@@ -213,16 +213,6 @@ EarthJev accuracy (%) on the full benchmark sets, as reported in the paper (`ref
   the 1,612 questions were identical, and the accuracy differed by +0.37 points.*
 * *How each part of the paper maps to the code: [docs/PAPER_CODE_MAP.md](docs/PAPER_CODE_MAP.md).*
 
-## 🤔Common Issues
-
-| Issue | Solution |
-| :--- | :--- |
-| The flash-attn or causal-conv1d wheel does not install (glibc older than 2.32, another CUDA) | Build them from source, [docs/INSTALL.md](docs/INSTALL.md) section 3.4; section 3.5 explains running without them |
-| `RuntimeError: set the environment variable EARTHJEV_DATA` (or `EARTHJEV_MODELS`) | Set the paths of `A. Installation`, Step 3 |
-| `run_earthjev.py: error: ... is not empty` | Add `--resume` to continue the run, or `--overwrite` to replace it |
-| `check_live.py` reports differences on a GPU other than the H100 | Expected: compare benchmark accuracies instead ([reference/README.md](reference/README.md)) |
-| `fit_decisions` says "up to floating-point rounding" | CPUs without AVX-512 round NumPy's `exp` and `log` differently in the last bits; the result is accepted ([docs/INSTALL.md](docs/INSTALL.md) section 9) |
-| `hf download` fails with HTTP 429 or a timeout | Rerun the same command, which resumes; a Hugging Face token raises the rate limit |
 
 ## 📜Reference
 
