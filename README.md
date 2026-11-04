@@ -5,13 +5,13 @@
 
 <p align="center">
   <strong><em>
-    Yao Zhang<sup>1,*</sup>, Pengyu Dai<sup>2,3,*</sup>, Wei Guo<sup>1,†</sup>, Jian Liang<sup>1</sup>,<br>
-    Jian Song<sup>3</sup>, Yafei Ou<sup>3</sup>, Hongruixuan Chen<sup>3,†</sup>, Naoto Yokoya<sup>2,3</sup>
+    Pengyu Dai<sup>1,2,*</sup>, Yao Zhang<sup>3,*</sup>, Wei Guo<sup>1,†</sup>, Jian Liang<sup>1</sup>,<br>
+    Jian Song<sup>3</sup>, Yafei Ou<sup>3</sup>, Hongruixuan Chen<sup>3,</sup>, Naoto Yokoya<sup>1,2†</sup>
   </em></strong>
 </p>
 
 <p align="center">
-  <sup>1</sup> Wuhan University &nbsp; <sup>2</sup> The University of Tokyo &nbsp; <sup>3</sup> RIKEN AIP<br>
+  <sup>1</sup> RIKEN AIP &nbsp; <sup>2</sup> The University of Tokyo &nbsp; <sup>3</sup> Wuhan University<br>
   <sup>*</sup> Equal contribution &nbsp; <sup>†</sup> Corresponding authors
 </p>
 
