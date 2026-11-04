@@ -3,7 +3,17 @@
 
 <h3>EarthJev: Efficient Visual Evidence Acquisition and Decision for UHR Remote Sensing Understanding</h3>
 
-Anonymous authors (under review)
+<p align="center">
+  <strong><em>
+    Yao Zhang<sup>1,*</sup>, Pengyu Dai<sup>2,3,*</sup>, Wei Guo<sup>1,†</sup>, Jian Liang<sup>1</sup>,<br>
+    Jian Song<sup>3</sup>, Yafei Ou<sup>3</sup>, Hongruixuan Chen<sup>3,†</sup>, Naoto Yokoya<sup>2,3</sup>
+  </em></strong>
+</p>
+
+<p align="center">
+  <sup>1</sup> Wuhan University &nbsp; <sup>2</sup> The University of Tokyo &nbsp; <sup>3</sup> RIKEN AIP<br>
+  <sup>*</sup> Equal contribution &nbsp; <sup>†</sup> Corresponding authors
+</p>
 
 [![Paper](https://img.shields.io/badge/Paper-under%20review-lightgrey.svg)](#reference)  [![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg)](docs/INSTALL.md)  [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Weights-EarthJev-yellow.svg)](https://huggingface.co/daidaidaidai1dai/EarthJev)  [![PyTorch](https://img.shields.io/badge/PyTorch-2.10-EE4C2C.svg)](requirements/gpu.txt)  [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
