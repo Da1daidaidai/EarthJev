@@ -1,23 +1,4 @@
-"""Official answer matching and the benchmark scores of the paper tables (Sec. IV-A, Evaluation Metrics).
-
-Per question, correctness follows each benchmark's own scorer:
-
-- MME-RS: the official MME-RealWorld letter extraction (an empty answer scores 0);
-- XLRS-Bench-lite: the official lmms-eval extraction; the extracted letter set must equal the reference set;
-- RSHR-Bench (no official scorer): the leading option letter, or the full text of an option;
-- LRS-VQA and the pointer sets: the official LRS-VQA rule (lowercased, not stripped: exact match or a WordNet path
-  similarity > 0.8);
-- LRS-GRO and its training split: the official ZoomEarth rule (lowercased, answer stripped: exact match or a
-  lemmatized WordNet path similarity >= 0.8).
-
-The functions marked VERBATIM are copied unchanged from the official evaluation code (renamed where two had the same
-name); their quirks are part of each protocol. The WordNet rules need the NLTK WordNet 3.0 corpus.
-
-Scores (``benchmark_scores``, Tables I-II): Avg. = question-level accuracy Acc over the benchmark; a group column
-(LRS-VQA subset, MME-RS task, LRS-GRO level, XLRS-lite L3 task) = Acc over the group's questions, except RSHR-Bench's
-Perception and Reasoning, which are unweighted means over their task categories; Overall = Acc_overall, the mean of
-the five benchmark averages (``overall``). All values are percentages.
-"""
+"""Score predictions using the benchmark-specific answer matching rules."""
 import re
 from collections import defaultdict
 from functools import lru_cache

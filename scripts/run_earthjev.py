@@ -1,16 +1,4 @@
-"""Run EarthJev live on a benchmark: one JSON line per question (the record of earthjev/pipeline.py).
-
-    python scripts/run_earthjev.py --bench mme_rs [--split full] [--shard 1/12] [--resume | --overwrite] [--limit N]
-                                   [--out PATH] [--config qwen35-9b]
-
-Questions: the split's questions sorted by (image, qid); --shard i/n (1 <= i <= n) runs the i-th of n contiguous
-chunks whose sizes differ by at most one. The questions on one image are consecutive and share its decoding, but a
-chunk boundary can split them. --resume keeps the error-free records already in --out and runs the rest;
---overwrite replaces --out; without either, a non-empty --out is refused. --config: a name under configs/ or a JSON
-file (e.g. a modified copy). Default output: $EARTHJEV_OUT/earthjev_<config>/<bench>_<split>_<i>of<n>.jsonl. Needs a
-CUDA GPU (the configuration's answering model, bf16 with flash-attention 2), $EARTHJEV_DATA and $EARTHJEV_MODELS.
-Score with scripts/evaluate.py; compare with the reference live records with scripts/check_live.py (reference/).
-"""
+"""Run EarthJev on a benchmark and write one JSONL record per question."""
 import argparse
 import sys
 from pathlib import Path

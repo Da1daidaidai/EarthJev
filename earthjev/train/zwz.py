@@ -1,22 +1,4 @@
-"""ZwZ-RL-VQA questions with an evidence box -> crop-level training examples of the region head (paper Sec. III-C).
-
-    python -m earthjev.train.zwz export   # train.parquet -> $EARTHJEV_OUT/zwz/train_rows.jsonl (needs pyarrow)
-    python -m earthjev.train.zwz build    # -> $EARTHJEV_OUT/zwz/manifest.jsonl: one row per (image, stem), filtered,
-                                          #    split by image into train / val / calib
-
-The examples are the same for every configuration (no --config).
-
-Data (once), from https://huggingface.co/datasets/inclusionAI/ZwZ-RL-VQA (Apache-2.0): train.parquet (sha256
-89879ba2a6f8c370117f6259ff844d382b5e1ac83b63d8dee94cc219313661a3) in $EARTHJEV_DATA/ZwZ-RL-VQA/, and the overlay-free
-original images extracted next to it, `cat original_images.tar.gz0{0,1,2,3,4} | tar -xf - -C $EARTHJEV_DATA/ZwZ-RL-VQA`
-(a plain tar split in five parts despite the name), giving original_images/<name>. Part sha256:
-  00 64fd86333bbd07ba495dc7253a0a44672e01df28830144553d8279361a4e3ea0
-  01 bfb62c4266a99ad3a1a3a17b62dfe7d888cac77ddbe1309028ca61134b17bead
-  02 3632252b59d7f4222b89cfa7a85e0d0c525cc084dd412b1edf01d72f90fee82f
-  03 fbd2cc806a14adce169d7d60cb6b067e005d0c1c4cf4a1c9d2c01fd06a34b59e
-  04 4100d674dcfc34dcd639915bfe132893185113017b0f07c0c25ab0898747f555
-The parquet's own `images` carry a drawn red box around the evidence (the label) and are never used.
-"""
+"""Build region-head training crops from ZwZ-RL-VQA annotations."""
 import argparse
 import hashlib
 import json
@@ -33,7 +15,6 @@ CAPS = {'train': 12000, 'val': 1500, 'calib': 1500}  # questions kept per split 
 MAX_BOX_FRAC, MIN_BOX_SIDE, MIN_IMAGE_SIDE = 0.25, 8, 672
 MIN_CELL = 112  # training grid cells (the search scores cells >= 224 px; smaller ones stand for deeper levels)
 KINDS = ('cell_d1', 'cell_d2', 'cell_d2neg', 'centred', 'context')
-ROWS_SHA256 = '1c765c03eff2f1cf61270c20dfb0fee0292d02a351e64a1b9d62951d6f86db30'
 MANIFEST_SHA256 = '17427785a4b5809d59d0bb8c50d88d4f56911e11e0c531c4865e33abf0866916'
 
 
@@ -50,10 +31,6 @@ def manifest_path():
     return paths.out_root() / 'zwz' / 'manifest.jsonl'
 
 
-def _sha256(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
 def export():
     import pyarrow.parquet as pq
     rows = pq.read_table(image_root() / 'train.parquet',
@@ -62,8 +39,7 @@ def export():
     with open(rows_path(), 'w') as f:
         for r in rows:
             f.write(json.dumps(r) + '\n')
-    digest = _sha256(rows_path())
-    print(f'{len(rows)} rows -> {rows_path()} (sha256 {digest}{", as released" if digest == ROWS_SHA256 else ""})')
+    print(f'{len(rows)} rows -> {rows_path()}')
 
 
 def stem(problem):
@@ -126,10 +102,8 @@ def build():
     with open(manifest_path(), 'w') as f:
         for r in kept:
             f.write(json.dumps(r) + '\n')
-    digest = _sha256(manifest_path())
     counts = Counter(r['split'] for r in kept)
-    print(f'dropped {dict(drop)}; kept {dict(counts)} -> {manifest_path()} '
-          f'(sha256 {digest}{", as released" if digest == MANIFEST_SHA256 else ""})')
+    print(f'dropped {dict(drop)}; kept {dict(counts)} -> {manifest_path()}')
 
 
 def load_manifest(splits=('train', 'val', 'calib')):

@@ -1,10 +1,10 @@
-"""The environment tools: the pinned requirement files (scripts/check_env.py), imports of the whole code with them,
-and the data preparation (scripts/prepare_data.py) on small synthetic sources in the official formats."""
+"""Environment and benchmark conversion tests."""
 import base64
 import hashlib
 import importlib
 import importlib.util
 import io
+import urllib.parse
 import pkgutil
 import tarfile
 from pathlib import Path
@@ -24,11 +24,26 @@ def script(name):
     return module
 
 
-check_env, prep = script('check_env'), script('prepare_data')
+prep = script('prepare_data')
+
+
+def pins(path):
+    """name -> version of every requirement in a requirements file."""
+    out = {}
+    for line in path.read_text().splitlines():
+        line = line.split('#', 1)[0].strip() if ' @ ' not in line else line.strip()
+        if '==' in line:
+            name, version = line.split('==')
+            out[name.strip()] = version.strip()
+        elif ' @ ' in line:  # name @ URL of a wheel: the version is in the file name
+            name, url = line.split(' @ ')
+            wheel = urllib.parse.unquote(url.split('#')[0].rsplit('/', 1)[1])
+            out[name.strip()] = wheel.split('-')[1]
+    return out
 
 
 def test_everything_imports():
-    """Every module of the package and every script imports with the pinned packages (requirements/cpu.txt)."""
+    """Every module of the package and every script imports with the pinned packages (requirements.txt)."""
     import earthjev
     for module in pkgutil.walk_packages(earthjev.__path__, 'earthjev.'):
         importlib.import_module(module.name)
@@ -37,13 +52,12 @@ def test_everything_imports():
 
 
 def test_requirement_pins():
-    cpu, gpu = (check_env.pins(REPO / 'requirements' / f'{k}.txt') for k in ('cpu', 'gpu'))
-    assert all(gpu[name] == version for name, version in cpu.items())  # the GPU stack includes the CPU stack
+    gpu = pins(REPO / 'requirements.txt')
     assert {k: gpu[k].split('+')[0] for k in ('torch', 'torchvision', 'transformers', 'pillow', 'numpy', 'flash-attn',
                                               'causal-conv1d', 'flash-linear-attention')} == {
         'torch': '2.10.0', 'torchvision': '0.25.0', 'transformers': '5.5.0', 'pillow': '12.0.0', 'numpy': '1.26.4',
         'flash-attn': '2.8.1', 'causal-conv1d': '1.6.1', 'flash-linear-attention': '0.4.2'}
-    for line in (REPO / 'requirements' / 'gpu.txt').read_text().splitlines():  # wheels by URL carry their sha256
+    for line in (REPO / 'requirements.txt').read_text().splitlines():  # wheels by URL carry their sha256
         assert ' @ ' not in line or '#sha256=' in line
 
 
@@ -64,7 +78,7 @@ def jpeg(seed):
 
 
 def writer(root, files):
-    return prep.Writer(root, {rel: (len(data), hashlib.sha256(data).hexdigest()) for rel, data in files.items()})
+    return prep.Writer(root, {rel: len(data) for rel, data in files.items()})
 
 
 def test_converters(tmp_path):
@@ -147,7 +161,10 @@ def test_untar_split_archive(tmp_path):
 def test_verify(tmp_path):
     folder = 'XLRS-Bench-lite'
     assert prep.verify(tmp_path, folder, partial=True) and not prep.verify(tmp_path, folder)
-    rel, (size, _) = next(iter(prep.manifest(folder).items()))
+    rel, size = next(iter(prep.manifest(folder).items()))
     (tmp_path / rel).parent.mkdir(parents=True)
-    (tmp_path / rel).write_bytes(b'\0' * size)  # right size, wrong content
+    (tmp_path / rel).touch()
     assert not prep.verify(tmp_path, folder, partial=True)
+    with (tmp_path / rel).open('wb') as f:
+        f.truncate(size)
+    assert prep.verify(tmp_path, folder, partial=True)

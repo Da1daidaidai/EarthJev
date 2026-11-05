@@ -1,23 +1,4 @@
-"""Compare live runs of EarthJev with the reference live records (reference/live/<config>/<bench>.jsonl.gz).
-
-    python scripts/check_live.py RUN.jsonl [RUN.jsonl ...] [--config qwen35-9b]
-
-The reference records (reference/live/<config>/) are, per configuration, 1,612 questions answered by the original
-live pipeline on one NVIDIA H100 (bf16, flash-attention 2, the pinned GPU stack): shard 1/12 of MME-RS, 1/24 of
-LRS-VQA, 1/10 of XLRS-lite, 1/32 of LRS-GRO and 1/3 of RSHR. Reproduce them with scripts/run_earthjev.py --bench <b>
---shard 1/<n> [--config <config>] (reference/README.md).
-
---config is the name of a shipped configuration (configs/<name>.json); a run whose records name another configuration
-is refused. Several files are merged as in scripts/evaluate.py (earthjev.data.read_runs).
-
-Printed per benchmark: the share of the run's questions whose route (every image), pointer trust P_ptr, views (boxes
-and scores), answers of the two presentations, chosen presentation, final answer and correctness equal the reference,
-and the largest |difference| of P_ptr and of the final answer's calibrated P. P is compared on the questions without
-a veto only: after a veto the Qwen3.5-9B reference holds the vetoed answer's P, the pipeline the replacement letter's.
-Expected: on the same GPU model and stack every field reproduces (greedy decoding of the same inputs). On another GPU
-configuration the bf16 numerics differ, so scores and log-probs move and some views and answers change
-(reference/README.md lists the agreement measured on a MIG partition of an H100).
-"""
+"""Compare predictions against the released reference runs."""
 import argparse
 import sys
 from pathlib import Path

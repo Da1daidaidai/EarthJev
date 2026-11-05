@@ -74,7 +74,7 @@ def test_open_ended_rules():
     assert not lrs('2', '2.') and not lrs('2', '2 ') and not lrs('car', 'truck')  # LRS-VQA: no stripping
     assert gro('ship', ' Ships ') and gro('2', '2 ') and not gro('car', 'truck')  # LRS-GRO: stripped, lemmatized
     assert not lrs('car', None) and not gro('car', None)
-    # an empty reference (LRS-GRO-11315): the official rule matches an empty or blank answer (docs/DATA.md)
+    # an empty reference (LRS-GRO-11315): the official rule matches an empty or blank answer
     empty = next(r for r in data.load_rows('lrs_gro') if r['qid'] == 'LRSGRO__LRS-GRO-11315')
     assert empty['ground_truth'] == '' and S.score(empty, '') and S.score(empty, ' ') and not S.score(empty, None)
     assert S.score(row('lrsrefdev_bad', 'car'), 'automobile') and S.score(row('grorefdev_ok', 'ship'), 'ships')

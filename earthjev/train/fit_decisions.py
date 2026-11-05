@@ -1,26 +1,4 @@
-"""Refit the decision parameters of a configuration from the logged calibration runs (CPU, no model runs):
-
-- spv.trust_platt: the Platt map of the pointer trust (Sec. III-B), on the stated-pointer questions of the LRS-VQA dev
-  and LRS-GRO training sets with a correct or a wrong box (200 + 200 and 2,049 + 2,049);
-- spv.tau_fast, spv.tau_keep: the grid point with the best mean accuracy over XLRS-lite dev and the two pointer sets
-  (fixed presentation, no veto); ties go to the lower tau_keep, then the higher tau_fast;
-- cas.answer_platt: per benchmark and presentation, the Platt map of the confidence feature for the correctness of
-  the logged search's answers (Sec. III-D): MME-RS dev (90), XLRS-lite dev (130), LRS-VQA dev (240), LRS-GRO training
-  (3,511); RSHR-Bench uses maps fitted on MME-RS and XLRS-lite dev together (it has no calibration split);
-- cas.presence_platt: the Platt map of the verifier's region probability for 'the crop shows the evidence' on the
-  3,045 LRS-VQA dev probe crops (presence_probe: cached region-head logits and the verifier weights).
-
-The other values of the configuration are not fitted here: spv.temperature and spv.tau_opt come from the verifier
-training (earthjev.train.train_verifier, verifier.json), and cas.veto_threshold is fixed at 0.5.
-
-The calibration runs (data/calibration/<config>/README.md) keep the key names of the original runs; ROUTES maps their
-route keys.
-
-  python -m earthjev.train.fit_decisions [--config qwen35-9b] [--runs data/calibration/<config>] [--out fit.json]
-
-Prints the refitted values and exits with status 1 if any differs from the configuration (the shipped configuration
-is reproduced bitwise).
-"""
+"""Fit calibration maps and routing thresholds from saved predictions."""
 import argparse
 import gzip
 import json

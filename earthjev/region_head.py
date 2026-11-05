@@ -3,17 +3,7 @@
 # 39b0e7b), Copyright 2026 Vision-JEV Contributors, licensed under the Apache License, Version 2.0
 # (http://www.apache.org/licenses/LICENSE-2.0). Modified: reduced to the 'noul' task and inlined; the head returns
 # only its logit.
-"""Region decision head f_phi of the EDM (paper Sec. III-C, region score p(c | q)).
-
-z_v(c, q) = f_phi(h_theta(c, q)): the frozen answerer reads a candidate view c (at most 256 visual tokens) under the
-evidence-querying prompt below, and the two-layer head maps the hidden state of the last prompt token to a logit.
-The prompt is the Vision-Jev 'noul' prompt the head was trained with, including its 'You are Vision-Jev.' system
-line: the shipped head, the pointer verifier and every fitted map depend on these exact tokens, so the text must not
-change. At inference the question stem has its pointers removed (earthjev.pointers.strip) before decision_prompt.
-
-No temperature is applied here: the search and the pointer views divide z_v by the verifier temperature T_g
-(earthjev.spv); the head's own temperature T_f in head.json is recorded only.
-"""
+"""Score a candidate view from the final prompt token of the frozen answerer."""
 import json
 from pathlib import Path
 

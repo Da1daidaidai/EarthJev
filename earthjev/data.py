@@ -1,14 +1,4 @@
-"""Benchmark questions, frozen question lists and image locations (paper Sec. IV-A).
-
-Every question set is a JSON-lines file ``data/benchmarks/<set>.jsonl`` (one row per question, in a fixed order) and
-every frozen question list a JSON file ``data/splits/<name>.json``; docs/DATA.md describes both and the image layout
-expected under ``$EARTHJEV_DATA``. Row keys: ``qid, bench``, ``image`` (relative to ``$EARTHJEV_DATA``) or ``images``
-(the 60 two-image XLRS-lite questions), ``question`` (the full prompt given to the answerer), ``stem`` (the question
-without options or answer format), ``options`` ([{id, text}]), ``choice_options``, ``ground_truth``, ``category``,
-``source``, ``is_mcq``, ``is_yes_no``, ``hbox`` and ``image_size`` (pixels; LRS-VQA and the pointer sets, else None),
-``multi_choice`` (XLRS-lite only), plus the pointer fields ``ref_format`` / ``ref_box`` of the pointer sets and
-``gro_box`` (0-1024 frame) of the LRS-GRO training questions.
-"""
+"""Load benchmark questions, evaluation splits and source images."""
 import gzip
 import json
 import sys

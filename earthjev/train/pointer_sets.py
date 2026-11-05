@@ -1,17 +1,4 @@
-"""Questions with inserted spatial pointers: the pointer-trust calibration sets.
-
-A pointer sentence (earthjev.pointers.render, in a format seeded by the question id) is appended to the question stem.
-It states either the annotated evidence box ('ok') or a box of the same size at a seeded position whose
-neighbourhood misses the evidence ('bad'); the same questions are used for both conditions.
-
-lrsrefdev_<ok|bad>   the LRS-VQA dev questions whose evidence box leaves room for a wrong box: 200 of the 210 dev
-                     questions with a box (of 240).
-grorefdev_<ok|bad>   LRS-GRO training questions with a box (canonical 0-1024 frame), except those on the images of 2,000
-                     held-out LRS-VQA evidence questions (the paper's pointer test, built the same way outside the dev
-                     split; 2,049 questions).
-They are the fitting data of the pointer-trust map (a_ptr, b_ptr) and, with the XLRS-lite dev questions, of the
-thresholds tau_fast / tau_keep (Sec. III-B).
-"""
+"""Construct paired questions with correct and incorrect spatial cues."""
 import hashlib
 import os
 import random

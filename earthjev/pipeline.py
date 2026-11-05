@@ -1,26 +1,4 @@
-"""The EarthJev pipeline, live: one question in, its answer and a log record out (paper Sec. III, Fig. 2).
-
-Per image of the question (two images for the XLRS-lite change-detection questions):
-1. SPV (Sec. III-B): the precise pointers the question states become pointer views t_j, scored in one batch by the
-   region head and the pointer verifier (p_j). For stem pointers on a single image, the answerer's Yes/No probability
-   y_j on each view gives the pointer trust P_ptr, which routes the question to the fast path (the view of the stem
-   pointer with the highest p_j alone) or to the search; option-box pointers and two-image questions take the fast
-   path iff max_j p_j >= tau_opt.
-2. EDM (Sec. III-C): the hierarchical search scores 3x3 cells with the verify-then-propagate mixture (pi = max_j p_j);
-   its final selection and the pointer views form the pool, from which select_views keeps at most 4 views.
-3. Both presentations of the same views (Sec. III-D): the canvas (laid out with the search, as in the runs behind the
-   paper) and the memory views; the answerer answers each greedily with the log-probs of its own generation.
-4. CAS and the evidence presence veto choose the final answer (Sec. III-D).
-
-Record of one question (one JSON line; see run_row): qid, bench, config (the configuration's name, e.g.
-earthjev-qwen35-9b), timings (CUDA-synchronized seconds: load_s, search_s, canvas_answer_s, memory_answer_s, decide_s,
-total_s), error (None, or 'Type: message' of the exception that failed the question; the stages finished before it are
-kept), spv (per image: route 'fast' | 'search' | 'search_without_pointers', pointers = the number of pointer views,
-trust = {P, s, s1, admit} or None, pointer_s), final, render (the chosen presentation), P (its calibrated probability of
-being correct), decision (letter: the option letter read from each presentation's answer; veto: the replacement letter
-of the presence veto or None), outputs and gen ({tok_lp, letter_lp, ended}) per presentation, views ([{bbox, score,
-note?}], a list per image for two-image questions).
-"""
+"""Verify spatial cues, search for evidence and select an answer."""
 import json
 import time
 import traceback

@@ -13,7 +13,7 @@ from earthjev import data, paths
 SIZES = {'mme_rs': 3738, 'lrs_vqa': 7333, 'xlrs_lite': 3080, 'lrs_gro': 9734, 'rshr': 1154, 'gro_train': 3511,
          'lrsrefdev_ok': 200, 'lrsrefdev_bad': 200, 'grorefdev_ok': 2049, 'grorefdev_bad': 2049}
 FOLDER = {'mme_rs': 'MME-RealWorld/images/', 'xlrs_lite': 'XLRS-Bench-lite/images/', 'rshr': 'RSHR-Bench/images/',
-          'lrs_vqa': 'LRS-VQA/LRS_VQA/image/', 'lrs_gro': 'LRS-GRO/image/'}  # docs/DATA.md
+          'lrs_vqa': 'LRS-VQA/LRS_VQA/image/', 'lrs_gro': 'LRS-GRO/image/'}
 FOLDER.update(dict.fromkeys(('lrsrefdev_ok', 'lrsrefdev_bad'), FOLDER['lrs_vqa']))
 FOLDER.update(dict.fromkeys(('gro_train', 'grorefdev_ok', 'grorefdev_bad'), FOLDER['lrs_gro']))
 KEYS = {'qid', 'bench', 'question', 'stem', 'options', 'choice_options', 'ground_truth', 'category', 'source',
@@ -45,12 +45,12 @@ def test_benchmark_details():
     assert Counter(r['source'] for r in data.load_rows('lrs_vqa')) == {'FAIR': 2272, 'GLH-Bridge': 1062, 'STAR': 3999}
     assert Counter(r['source'] for r in data.load_rows('lrs_gro')) == {'global': 2328, 'region': 2296, 'object': 5110}
     assert all(r['hbox'] is None or len(r['hbox']) == 4 for r in data.load_rows('lrs_vqa'))
-    # RSHR-Bench's two-image questions in the subset get their first image only (docs/DATA.md)
+    # RSHR-Bench's two-image questions in the subset get their first image only
     two = [r for r in data.load_rows('rshr') if r['category'] == 'future_prediction_two_image']
     assert [r['qid'] for r in two] == [f'RSHR__{i}' for i in (361, 363, 365, 368, 390)]
     assert all('image' in r and 'images' not in r for r in two)
     gro = data.load_rows('lrs_gro') + data.load_rows('gro_train')
-    assert all(r['ground_truth'] == r['ground_truth'].strip() for r in gro)  # stripped references (docs/DATA.md)
+    assert all(r['ground_truth'] == r['ground_truth'].strip() for r in gro)  # stripped references
 
 
 def test_splits():
@@ -118,7 +118,7 @@ def test_image_manifest():
     assert [f['path'] for f in files] == sorted({p for name in SIZES for r in data.load_rows(name) for p in images(r)})
     assert all(len(f['sha256']) == 64 and int(f['bytes']) > 0 for f in files)
     size = {f['path']: [int(f['width']), int(f['height'])] for f in files}
-    # MME-RealWorld images above 2^24 pixels are downscaled (docs/DATA.md)
+    # MME-RealWorld images above 2^24 pixels are downscaled
     assert all(w * h <= 2 ** 24 for p, (w, h) in size.items() if p.startswith('MME-RealWorld/'))
     for name in SIZES:  # the image sizes stated by the rows
         assert all(size[r['image']] == r['image_size'] for r in data.load_rows(name) if r.get('image_size'))
@@ -142,4 +142,4 @@ def test_images_match_manifest(folder):
             with open(p, 'rb') as fh:
                 if hashlib.file_digest(fh, 'sha256').hexdigest() != f['sha256']:
                     bad.append(f"{f['path']}: sha256 differs")
-    assert not bad, f'{len(bad)} image files differ from data/images.tsv (docs/DATA.md), e.g. ' + '; '.join(bad[:3])
+    assert not bad, f'{len(bad)} image files differ from data/images.tsv, e.g. ' + '; '.join(bad[:3])

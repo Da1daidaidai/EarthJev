@@ -1,12 +1,4 @@
-"""Prompt text of the method, byte-identical to the text behind the paper's results.
-
-The fitted parts depend on these strings: the pointer-trust map on the Yes/No evidence question, the answer maps on the
-answer prompts (the region head's decision prompt is in earthjev.region_head). The canvas position hint and the Yes/No
-evidence question are those of ZoomSearch (Zhou et al., arXiv:2511.20460), kept verbatim for that reason.
-
-The evidence query is built from the stem with its pointers removed (earthjev.pointers.strip), as in the method; the
-answer prompts use the benchmark's full question text.
-"""
+"""Build prompts for region scoring and answer generation."""
 
 
 def answer_system(row):

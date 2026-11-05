@@ -1,26 +1,4 @@
-"""Frozen-answerer features h_theta of the region-head training crops (GPU; paper Sec. III-C).
-
-    python -m earthjev.train.extract_features [--set zwz] [--config qwen35-9b] [--shard 1/3] [--workers 6]
-
-The set 'zwz' is every crop of the ZwZ-RL-VQA manifest (earthjev.train.zwz.crops), the head's training data. Each crop
-is read at its 256-token view under the region-head prompt (earthjev.region_head, the question stem as given) and the
-hidden state of the last prompt token is kept as float16. One right-padded batch per question, run in forwards of at
-most 32 rows. (The fitting data of the presence map, the LRS-VQA dev probe crops with their region-head logits, are
-shipped in data/calibration/<config>/presence_probe_dev.jsonl.gz, produced by the original pipeline like the
-calibration runs.)
-
-Output: $EARTHJEV_OUT/features/zwz/<config>.s<i>of<n>.b<k>.npy ([n, hidden] float16) and index.s<i>of<n>.b<k>.jsonl
-({id, split, j, kind, label, bbox, group} per row), in blocks of 500 questions; a re-run skips finished blocks.
---shard i/n (1 <= i <= n) takes the i-th of n contiguous parts of the manifest. load_features() concatenates the
-blocks in shard and block order, i.e. manifest order.
-
-The released head was trained on features from the same model weights (Qwen3.5-9B, bf16, flash_attention_2) but
-loaded differently: through PEFT with the Vision-Jev 9B LoRA attached and disabled, and with the processor files of the
-Vision-Jev 9B release. Here the plain model and the answerer's own processor are used, as at inference. The two
-processors give identical input_ids, attention_mask, mm_token_type_ids, pixel_values and image_grid_thw on the checked
-crops; GPU features are not bitwise reproducible in any case, so the shipped head is the reference. The Qwen3-VL-8B
-head (--config qwen3-vl-8b) was trained on features extracted as here: the plain model with its own processor.
-"""
+"""Extract frozen visual-language features for region-head training."""
 import argparse
 import json
 import re

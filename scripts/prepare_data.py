@@ -1,16 +1,4 @@
-"""Download the benchmark images from their official sources and arrange them under $EARTHJEV_DATA (docs/DATA.md).
-
-    python scripts/prepare_data.py mme_rs xlrs_lite lrs_vqa lrs_gro rshr   # download, convert, verify
-    python scripts/prepare_data.py verify                                  # every image vs data/images.tsv
-    python scripts/prepare_data.py zwz                                     # training data only (48 GB)
-
-Downloads go to --src (default $EARTHJEV_DATA/sources; they can be deleted afterwards). Each benchmark is fetched
-at a pinned revision, converted (MME-RealWorld: images above 2^24 pixels downscaled, see mme_image; XLRS-Bench-lite
-and RSHR-Bench: the embedded image bytes; LRS-VQA: the 7z archive, which needs 7-Zip; LRS-GRO: its images are the
-LRS-VQA files of the same name, linked by default), and every written file is checked against the size and sha256 in
-data/images.tsv. Interrupted runs resume: files already present with the listed size are kept.
---no-download uses what is already in --src; --limit N writes only N files per benchmark (a quick trial).
-"""
+"""Download and prepare the selected benchmark images."""
 import argparse
 import base64
 import csv
@@ -41,14 +29,6 @@ SOURCES = {  # name: (Hugging Face dataset, revision, files used)
 }
 FOLDER = {'mme_rs': 'MME-RealWorld', 'xlrs_lite': 'XLRS-Bench-lite', 'lrs_vqa': 'LRS-VQA', 'lrs_gro': 'LRS-GRO',
           'rshr': 'RSHR-Bench'}
-ZWZ_SHA256 = {  # not in data/images.tsv: checked as downloaded (the values of earthjev/train/zwz.py)
-    'train.parquet': '89879ba2a6f8c370117f6259ff844d382b5e1ac83b63d8dee94cc219313661a3',
-    'original_images/original_images.tar.gz00': '64fd86333bbd07ba495dc7253a0a44672e01df28830144553d8279361a4e3ea0',
-    'original_images/original_images.tar.gz01': 'bfb62c4266a99ad3a1a3a17b62dfe7d888cac77ddbe1309028ca61134b17bead',
-    'original_images/original_images.tar.gz02': '3632252b59d7f4222b89cfa7a85e0d0c525cc084dd412b1edf01d72f90fee82f',
-    'original_images/original_images.tar.gz03': 'fbd2cc806a14adce169d7d60cb6b067e005d0c1c4cf4a1c9d2c01fd06a34b59e',
-    'original_images/original_images.tar.gz04': '4100d674dcfc34dcd639915bfe132893185113017b0f07c0c25ab0898747f555',
-}
 
 
 def mme_size(w, h):
@@ -73,9 +53,9 @@ def mme_image(data):
 
 
 def manifest(folder=None):
-    """data/images.tsv: path -> (bytes, sha256), optionally for one folder."""
+    """data/images.tsv: path -> expected size in bytes, optionally for one folder."""
     with open(REPO / 'data' / 'images.tsv', newline='') as f:
-        return {r['path']: (int(r['bytes']), r['sha256']) for r in csv.DictReader(f, delimiter='\t')
+        return {r['path']: int(r['bytes']) for r in csv.DictReader(f, delimiter='\t')
                 if folder is None or r['path'].split('/')[0] == folder}
 
 
@@ -87,7 +67,7 @@ class Writer:
 
     def needed(self, rel):
         p = self.root / rel
-        return rel in self.want and not (p.is_file() and p.stat().st_size == self.want[rel][0])
+        return rel in self.want and not (p.is_file() and p.stat().st_size == self.want[rel])
 
     def full(self):
         return self.limit is not None and self.n >= self.limit
@@ -147,7 +127,7 @@ def convert_rshr(src, w):
 def seven_zip():
     exe = shutil.which('7zz') or shutil.which('7z') or shutil.which('7za')
     if not exe:
-        sys.exit('LRS-VQA needs 7-Zip on PATH (7zz, 7z or 7za; docs/DATA.md)')
+        sys.exit('LRS-VQA needs 7-Zip on PATH (7zz, 7z or 7za; README.md)')
     return exe
 
 
@@ -155,7 +135,7 @@ def convert_lrs_vqa(src, w):
     """7z x LRS_VQA.7z.001 into LRS-VQA/ gives LRS-VQA/LRS_VQA/image/<name>; existing files are kept (-aos), after the
     listed ones with another size (cut short by an interrupted run) are deleted."""
     exe, archive = seven_zip(), src / 'LRS_VQA.7z.001'
-    for rel, (size, _) in w.want.items():
+    for rel, size in w.want.items():
         p = w.root / rel
         if p.is_file() and p.stat().st_size != size:
             p.unlink()
@@ -171,7 +151,7 @@ def untar(parts, dest, limit=None):
     """cat part1 part2 ... | tar -x, in Python with the safe 'data' filter (untrusted archives)."""
     cat = subprocess.Popen(['cat', *map(str, parts)], stdout=subprocess.PIPE)
     try:
-        with tarfile.open(fileobj=cat.stdout, mode='r|') as tf:
+        with tarfile.open(fileobj=cat.stdout, mode='r|*') as tf:
             n = 0
             for member in tf:
                 tf.extract(member, dest, filter='data')
@@ -196,21 +176,16 @@ def convert_lrs_gro(src, w, mode):
         untar(sorted(src.glob('images.tar.part-*')), w.root / 'LRS-GRO', w.limit)
 
 
-def sha256(path):
-    with open(path, 'rb') as f:
-        return hashlib.file_digest(f, 'sha256').hexdigest()
-
-
 def verify(root, folder, partial=False):
-    """Size and sha256 of every listed file of a folder. partial: missing files are not errors (--limit)."""
+    """Check file sizes. With --limit, missing files are expected."""
     want = manifest(folder)
     good = missing = 0
     wrong = []
-    for rel, (size, digest) in want.items():
+    for rel, size in want.items():
         p = root / rel
         if not p.is_file():
             missing += 1
-        elif p.stat().st_size != size or sha256(p) != digest:
+        elif p.stat().st_size != size:
             wrong.append(rel)
         else:
             good += 1
@@ -223,7 +198,7 @@ def download(name, src, offline):
     repo, revision, files = SOURCES[name]
     local = src / repo.split('/')[1]
     if not offline:
-        os.environ['HF_HUB_OFFLINE'] = '0'  # the run settings of docs/INSTALL.md set it to 1
+        os.environ['HF_HUB_OFFLINE'] = '0'
         from huggingface_hub import snapshot_download
         print(f'{name}: downloading {repo} at {revision} to {local}', flush=True)
         snapshot_download(repo, repo_type='dataset', revision=revision, local_dir=local, allow_patterns=files)
@@ -236,12 +211,9 @@ def prepare(name, src, root, limit, lrs_gro_mode):
     if name == 'zwz':
         dest = root / 'ZwZ-RL-VQA'
         dest.mkdir(parents=True, exist_ok=True)
-        for rel, digest in ZWZ_SHA256.items():
-            if sha256(src / rel) != digest:
-                sys.exit(f'{src / rel}: sha256 differs from the pinned revision')
         shutil.copyfile(src / 'train.parquet', dest / 'train.parquet')
         untar(sorted(src.glob('original_images/original_images.tar.gz0*')), dest, limit)
-        print(f'zwz: {dest}/train.parquet and {dest}/original_images/ (sha256 of the downloads checked)')
+        print(f'zwz: {dest}/train.parquet and {dest}/original_images/')
         return True
     folder = FOLDER[name]
     w = Writer(root, manifest(folder), limit)
@@ -263,7 +235,7 @@ def main():
                     help='link LRS-GRO/image to the identical LRS-VQA images (default) or extract its archive')
     args = ap.parse_args()
     if not os.environ.get('EARTHJEV_DATA'):
-        sys.exit('set EARTHJEV_DATA to the data root (docs/DATA.md)')
+        sys.exit('set EARTHJEV_DATA to the data root (README.md)')
     root = Path(os.environ['EARTHJEV_DATA'])
     if args.what == ['verify']:
         sys.exit(0 if all([verify(root, folder) for folder in FOLDER.values()]) else 1)

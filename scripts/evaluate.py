@@ -1,15 +1,4 @@
-"""Official scores of EarthJev runs (scripts/run_earthjev.py) per benchmark and group, next to the paper's.
-
-    python scripts/evaluate.py RUN.jsonl [RUN.jsonl.gz ...] [--config qwen35-9b]
-
-Scores come from earthjev.scoring (each benchmark's official scorer); a question whose record has an error counts as
-wrong. Several files of one benchmark are merged (earthjev.data.read_runs: the result does not depend on the order of
-the files, and a question in several files keeps an error-free record and is reported). --config is the name of a
-shipped configuration (configs/<name>.json); a run whose records name another configuration is refused. The paper's
-numbers of that configuration (reference/paper_scores.json: EarthJev with Qwen3.5-9B in Tables I-II, per group; with
-Qwen3-VL-8B in Table IV, benchmark averages only) are full-set numbers: they are printed next to a run that covers a
-benchmark's full question set, and for a subset (a shard) only for orientation.
-"""
+"""Score one or more prediction files by benchmark and question group."""
 import argparse
 import json
 import sys

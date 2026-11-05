@@ -1,12 +1,4 @@
-"""The answerer: one frozen model (the configuration's: Qwen3.5-9B or Qwen3-VL-8B, both Qwen chat models with 32-px
-visual tokens, read with their own processor, tokenizer and chat template) that answers both presentations and gives
-the Yes/No evidence probability of the pointer trust (paper Sec. III-B and III-D).
-
-Every image is resized in PIL to its pixel budget first (prepare_image), to a size the image processor keeps,
-so the processor never receives a UHR-sized image and never resizes again. Answers are greedy with thinking off, under
-a system turn, and keep the log-probabilities of their own generation. The Yes/No probability follows ZoomSearch's
-answer confidence (Zhou et al., arXiv:2511.20460), re-implemented here.
-"""
+"""Generate answers and extract visual features with a frozen Qwen model."""
 import torch
 from PIL import Image
 from transformers.models.qwen2_vl.image_processing_qwen2_vl import smart_resize

@@ -1,22 +1,4 @@
-"""Train, select and calibrate the region head f_phi on cached features (paper Sec. III-C).
-
-    python -m earthjev.train.train_region_head [--config qwen35-9b] [--device cuda]
-
-Reads the ZwZ features of earthjev.train.extract_features ($EARTHJEV_OUT/features/zwz/<config>.*) and writes
-$EARTHJEV_OUT/region_head/<config>/{head.safetensors, head.json, training_history.json} (<config>: the file name of
---config without .json).
-
-Final settings (the released head): binary cross-entropy on the ZwZ train crops; AdamW (lr 1e-3, weight decay 0.01),
-8 epochs of batches of 512, linear warm-up over the first 3% of the steps then linear decay, gradient norm clipped
-at 1; seed 20261009 for the initialisation (torch) and the batch order (numpy). The epoch is chosen by the pooled
-AUROC on the ZwZ val crops of kind centred / cell_d1 / cell_d2, the temperature T_f by NLL over a 121-point log grid
-in [0.25, 4] on the ZwZ calib crops (recorded only: inference uses the verifier temperature). The released head came
-from a grid over lr {3e-4, 1e-3} x a listwise-loss weight {0, 0.5}, which selected these settings
-(training_history.json in the weights directory holds all four runs); every run starts from the seed, so training
-the selected one alone reproduces it. The shipped head.json and training_history.json are kept as written by that
-training run: they also hold metrics this code no longer computes (ECE, Brier score, per-question AUROC) and the
-constant fields max_train_questions and lam (the listwise-loss weight, 0 for the selected run).
-"""
+"""Train the region head on cached features and select it on validation data."""
 import argparse
 import json
 import math

@@ -1,13 +1,4 @@
-"""Evidence views and their two presentations (paper Sec. III-C and III-D).
-
-select_views          pooled boxes (search selection and pointer views) -> at most K = 4 views: each box grows to
-                      1.5 times its size and at least 512 px per side, and a view overlapping a higher-ranked one
-                      (IoU > 0.5) merges into it.
-compose_canvas        canvas presentation: the views' crops laid out by the 3 x 3 cell of the image their centres fall
-                      in. This is the layout of ZoomSearch (Zhou et al., arXiv:2511.20460), re-implemented here with
-                      identical output.
-render_memory_views   memory presentation: each view rendered from the native pixels with its longer side 1024 px.
-"""
+"""Build memory and canvas inputs from retained evidence views."""
 # render_memory_views follows VISTA (https://github.com/joshhhhhan/VISTA, commit
 # c97c354f0a8948256545a3e8850a1848f8e5b8c1; MIT License, Copyright (c) 2026 VISTA contributors): the inspection limits
 # of src/vista/core/tools.py (MAX_INSPECTION_VIEWS = 16, MAX_INSPECTION_QUESTION_CHARS = 1024), the errors

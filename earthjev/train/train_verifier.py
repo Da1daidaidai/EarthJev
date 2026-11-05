@@ -1,35 +1,4 @@
-"""Training of the pointer verifier g_psi (paper Sec. III-B) on the frozen region head's logits z_v.
-
-Data: the ZwZ-RL-VQA region-head crops (z_v cached once per crop) with synthesized pointers, rendered as text in a
-random earthjev.pointers format and parsed back. Per epoch and question: no pointer (P_NONE 30%); otherwise a
-synthetic directional phrase (P_PHRASE 0.30, only questions without a phrase of their own) and a precise pointer
-(box 0.65 / point 0.20 / option set 0.15; P_PRECISE 0.70 per draw, but always when no phrase is drawn). So the
-non-empty draws of a question without a stem phrase hold a precise pointer only (70%), both (21%) or a phrase only
-(9%), and a question with a stem phrase always gets a precise pointer. Each synthesized pointer is corrupted with
-probability rho = 0.25 (a box or point shifted, relocated or rescaled, a phrase naming another third; option sets
-never); plus one pointer-view example (the crop centred on the evidence with a pointer on it, or a negative crop with
-the pointer at the same relative place). Binary cross-entropy, 8 epochs, lr 1e-3, width 256; the epoch with the
-best mean ZwZ-val AUROC over pointer-free, correct and corrupted pointers is kept. T_g is fitted on ZwZ calib.
-tau_opt is the smallest threshold whose precision on the ZwZ-val pointer-view examples reaches 0.90, with phrases
-scored as at inference (the directional prior b_pos on the calibrated logit). Training, T_g and the recorded
-tau_learned put phrases into the geometry's phrase slot instead, as the shipped verifier was trained.
-
-  python -m earthjev.train.train_verifier zv [--config qwen35-9b] [--zv <zv.npz>]
-  python -m earthjev.train.train_verifier train [--config qwen35-9b] [--zv <zv.npz>] [--manifest <manifest.jsonl>]
-                                                [--out <dir>]
-
-zv: the region head's logit of every ZwZ crop from the cached features (python -m earthjev.train.extract_features
---set zwz), CPU. The cache (default $EARTHJEV_OUT/verifier/<config>/zv_zwz.npz) holds z (float32, one logit per crop)
-and index (JSON list of the crops: id = qid, split, kind, label, bbox in pixels) in the same order.
-train: reads the cache and the ZwZ manifest (W, H, bbox = the evidence box, stem per qid; default: the one python -m
-earthjev.train.zwz build writes) and writes verifier.safetensors, verifier.json and training_history.json (default
-$EARTHJEV_OUT/verifier/<config>). From the original z_v cache (re-extracted GPU features are not bitwise equal), one
-CPU thread reproduces the released verifier/<config> bit for bit on an x86-64 CPU with AVX-512. Elsewhere NumPy's exp
-may round T_GRID differently, so the recorded temperature can differ in the last bit; the weights stayed equal with the
-AVX2 code paths. Inference takes T_g and tau_opt from the configuration (configs/<config>.json, spv), not from
-verifier.json. The shipped training_history.json also holds the unselected configurations of the grid lr {3e-4, 1e-3}
-x width {64, 256}.
-"""
+"""Train the spatial pointer verifier using region-head logits."""
 import argparse
 import hashlib
 import json

@@ -1,20 +1,4 @@
-"""Spatial pointer verification (SPV, paper Sec. III-B).
-
-pointer_proposals(refs, size)  the pointer views t_j of the precise pointers a question states (boxes, points, option
-                               boxes; earthjev.pointers.parse): a square of side max(2 x long side, 448 px) around each
-                               pointer, at most 8, a view overlapping an earlier one (IoU > 0.5) dropped.
-PointerVerifier                the pointer verifier g_psi (Eq. spv) on the region head's raw logit z_v and the 22-d
-                               pointer geometry e_j:
-                                   p_j = sigmoid((z_v + gamma_j (w . e_j + c)) / T_g + b_pos(t_j)),
-                                   gamma_j = sigmoid(w_g [e_j; z_v] + b_g),
-                               and the verify-then-propagate mixture that scores the search's children,
-                                   p_mix(c) = pi p(c | R(q)) + (1 - pi) p(c | R_pos(q)),  pi = max_j p_j.
-pointer_trust(p, y, ab)        the calibrated pointer trust P_ptr = sigmoid(a_ptr max_j l_j + b_ptr),
-                               l_j = (logit p_j + logit y_j) / 2, y_j the answerer's Yes probability on t_j.
-route(P_ptr, tau_fast, tau_keep) and select_path(props, cfg, y): the fast path or the search (with or without the
-                               pointer views); questions whose boxes are all in the options (and multi-image questions)
-                               take the fast path iff max_j p_j >= tau_opt.
-"""
+"""Verify spatial cues and choose between direct answering and further search."""
 from pathlib import Path
 
 import numpy as np

@@ -1,28 +1,4 @@
-"""Spatial pointers R(q) stated in a question (paper Sec. III-B): parsing, stripping, geometry features.
-
-parse(stem, options, size) -> [Ref]: every region the question text points at, in normalized image coordinates.
-Supported formats (anything else is ignored):
-  pixel boxes      [x1, y1, x2, y2] | (x1, y1, x2, y2) | (x1,y1),(x2,y2) | <box>..</box> | <|box_start|>..<|box_end|>
-                   with or without a stated resolution ('Image resolution: W x H', 'resolution: W x H', 'W x H pixels'
-                   anywhere in the stem or options); a stated resolution that differs from the file is rescaled.
-  normalized boxes 0-1 (all values <= 1, decimals) | 0-1000 (integers with a cue: 'normaliz', '0-1000', 'relative',
-                   'per mille', or a Qwen <|box_start|> tag); cue-less integers are pixels when they fit the image,
-                   else 0-1000 (confidence 0.5).  [x, y, w, h] is read when x2 <= x1 or y2 <= y1 (confidence 0.5).
-  points           (x, y) | [x, y] | <point>..</point> after a cue word (point, pixel, location, coordinate,
-                   position, at, centred/centered); same coordinate rules; a point is a tiny box.
-  directional      superlatives ('top-most', 'rightmost', 'northernmost'; strength 2.0); image regions ('... of the
-  phrases          image/picture/scene/photo/map/view'; 1.5); prepositional phrases without an object complement ('in
-                   the upper left corner', 'on the far left', 'at the bottom', 'towards the lower right'; 1.0);
-                   adjectival compounds and cardinal/central adjectives ('the top-left lake', 'the southern channel',
-                   'the right-side area', 'the central building'; 1.0). Object-relative phrases ('to the left of the
-                   dock', 'north of the river', 'in the middle of the road', 'the southern end of the terminal') and
-                   bare 'left/right/top/bottom' adjectives (object parts: 'the left hand', 'the top rail') are ignored.
-                   Phrases are read from the stem only (options of position questions list positions); boxes and
-                   points from the stem and the options (an option box is tagged with its letter).
-strip(stem) removes coordinate references (and sentences that only state one): every decision prompt sees a
-reference-free stem. geometry(crops, refs) gives the verifier's 22-d geometry input e_j, rule_prior(crops, phrases)
-the directional prior b_pos. render() writes a pointer in one of the formats (the verifier's training data).
-"""
+"""Parse spatial cues and compute their geometric features."""
 import re
 from dataclasses import dataclass, field
 

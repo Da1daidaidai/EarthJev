@@ -1,24 +1,4 @@
-"""Hierarchical evidence search of the EDM (paper Sec. III-C, "Region Scoring and Hierarchical Search").
-
-A best-first search over 3x3 subdivisions of the image, driven by the region decision scores alone (no retriever).
-This is our re-implementation of the decision-only search of ZoomSearch (Zhou et al., arXiv:2511.20460), with the
-same behaviour; tests/test_search.py replays traces recorded from the original with stub scorers:
-
-1. The open set starts with the whole image (confidence 0). Every step pops its most confident node (the first one on
-   ties). The budget counts these pops, including those of leaves and of nodes without children.
-2. A node whose longer side is at most CELL px is a leaf: a final candidate that is not split.
-3. Any other node is split into 3x3 cells (side // 3; the last row and column take the remainder). Cells with a side
-   below CELL px are dropped, and a node left without cells is discarded. The cells of one node are scored in one
-   call (confidence 2p - 1), and those kept by select_by_sigmoid join the open set.
-4. Early stop: once a leaf has been popped, the search ends at the first popped node whose confidence exceeds a bound.
-   The bound starts at 1.0. Whenever a node that is not a leaf is popped (and does not stop the search) while the
-   number of pops has reached n, the bound drops by 0.1 and n grows by 5; n starts at int(5 log4(max(W, H) // CELL)).
-5. The final views are select_by_sigmoid over the popped leaves and all nodes of the deepest level reached (selected
-   for the open set or not), or the whole image when there are none (e.g. strips with a side below 3 CELL px).
-
-As in the original, an image whose longer side is below CELL px raises ValueError (math domain error), and ties in the
-sigmoid ranking of more than max_nodes nodes follow numpy's (unstable) argsort.
-"""
+"""Best-first evidence search over 3-by-3 subdivisions, following ZoomSearch."""
 import math
 
 import numpy as np

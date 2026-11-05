@@ -1,10 +1,4 @@
-"""Calibrated answer selection (CAS, paper Sec. III-D) and the evidence presence veto.
-
-The same evidence set is answered in two presentations (memory and canvas). Each answer's confidence feature z_r is
-mapped to P(correct) by a per-benchmark Platt map of that presentation, and the answer with the higher P is kept. An
-answer that is an absence option ("the image does not feature ...") is replaced by the most probable other option
-when the evidence is present in a view (max calibrated presence >= 0.5).
-"""
+"""Select between memory and canvas answers using calibrated confidence."""
 import math
 import re
 import statistics

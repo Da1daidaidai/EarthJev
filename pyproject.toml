@@ -9,7 +9,7 @@ description = "EarthJev: efficient visual evidence acquisition and decision for 
 license = "Apache-2.0"
 authors = [{ name = "EarthJev Authors" }]
 requires-python = "==3.12.*"
-# The exact environment is pinned in requirements/cpu.txt and requirements/gpu.txt (docs/INSTALL.md).
+# The exact environment is pinned in requirements.txt (README.md).
 dependencies = []
 
 [tool.setuptools.packages.find]

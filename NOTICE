@@ -1,0 +1,59 @@
+Third-party attribution
+
+Vision-Jev (https://github.com/LMDHQ-0420/Vision-Jev, 39b0e7b).
+Copyright 2026 Vision-JEV Contributors. Apache License 2.0 (see LICENSE).
+EarthJev adapts the NoulHead architecture and evidence prompt in earthjev/region_head.py.
+
+VISTA (https://github.com/joshhhhhan/VISTA, c97c354; arXiv:2610.02200).
+The memory renderer adapts VISTA's inspection limits and resizing rules. EarthJev adds downsampling for larger views.
+
+MIT License
+
+Copyright (c) 2026 VISTA contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+ZoomSearch (https://github.com/kiki-zyq/ZoomSearch, d215826) inspired the search and canvas layout.
+Two prompt strings are retained. Upstream does not state a license.
+
+Evaluation functions in earthjev/scoring.py retain their upstream credits.
+MME-RealWorld and the LRS-VQA scoring script have no stated code license. MME-RealWorld specifies academic use only.
+The ZoomEarth scorer is attributed to the ZoomEarth Project, copyright 2025, under its stated Apache 2.0 terms.
+XLRS scoring adapts lmms-eval, Copyright (c) 2025 LMMs-Lab, Apache 2.0. The extraction function was renamed.
+Model weights and benchmark images retain their source terms. WordNet 3.0 is copyright 2006 Princeton University.
+
+Benchmark sources
+
+MME-RS: yifanzhang114/MME-RealWorld. The dataset card lists Apache-2.0;
+the authors specify academic research only at https://github.com/MME-Benchmarks/MME-RealWorld.
+LRS-VQA: ll-13/LRS-VQA, by the LRS-VQA authors (https://github.com/VisionXLab/LRS-VQA).
+Its rows are distributed under https://creativecommons.org/licenses/by-nc/4.0/.
+XLRS-Bench-lite: initiacms/XLRS-Bench-lite. Its rows and adaptations are distributed
+under https://creativecommons.org/licenses/by-nc-sa/4.0/.
+LRS-GRO: HappyBug/LRS-GRO, ZoomEarth project, Apache-2.0 per
+https://github.com/earth-insights/ZoomEarth/tree/d5174519.
+RSHR-Bench: RL-MIND/RSHR-Bench, Apache-2.0; the release uses a subset.
+ZwZ-RL-VQA: inclusionAI/ZwZ-RL-VQA, Apache-2.0 for the annotations.
+
+EarthJev reformats benchmark rows and prompts, adds spatial cues to selected questions,
+and records model outputs. The split, calibration, reference and test rows retain their
+respective benchmark terms. Source imagery retains its original terms, including FAIR1M,
+GLH-Bridge and STAR for LRS-VQA, and DOTA (academic use), ITCVD (CC BY-NC-SA 4.0),
+MiniFrance/HRSCD (IGN licence ouverte) and ISPRS Toronto/Potsdam (research use,
+no redistribution) for XLRS.
