@@ -14,7 +14,7 @@
   <sup>*</sup> Equal contribution &nbsp; <sup>†</sup> Corresponding authors
 </p>
 
-[![Paper](https://img.shields.io/badge/Paper-under%20review-lightgrey.svg)](#reference) [![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg)](#quick-start) [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Weights-EarthJev-yellow.svg)](https://huggingface.co/daidaidaidai1dai/EarthJev) [![PyTorch](https://img.shields.io/badge/PyTorch-2.10-EE4C2C.svg)](requirements.txt) [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b.svg)](https://arxiv.org/abs/2611.10005) [![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg)](#quick-start) [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Weights-EarthJev-yellow.svg)](https://huggingface.co/daidaidaidai1dai/EarthJev) [![PyTorch](https://img.shields.io/badge/PyTorch-2.10-EE4C2C.svg)](requirements.txt) [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
 [**Overview**](#overview) | [**Get Started**](#quick-start) | [**Results**](#main-results) | [**Common Issues**](#common-issues) | [**Reference**](#reference) | [**Acknowledgments**](#acknowledgments)
 
@@ -67,7 +67,17 @@ Install WordNet for LRS-VQA and LRS-GRO scoring with `python -m nltk.downloader 
 
 ## Reference
 
-The paper is under review. A BibTeX entry will be added after review.
+If you find EarthJev useful in your research, please cite our paper.
+
+```bibtex
+@article{dai2026earthjev,
+  title   = {{EarthJev: Efficient Visual Evidence Acquisition and Decision for UHR Remote Sensing Understanding}},
+  author  = {Dai, Pengyu and Zhang, Yao and Song, Jian and Wang, Junjue and Ou, Yafei and Chen, Yuzeng and Xia, Junshi and Chen, Hongruixuan and Yokoya, Naoto},
+  journal = {arXiv preprint arXiv:2611.10005},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2611.10005}
+}
+```
 
 ## Acknowledgments
 
